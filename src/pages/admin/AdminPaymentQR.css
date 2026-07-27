@@ -1,0 +1,152 @@
+.admin-payment-setting {
+  padding: 25px;
+  border: 1px solid #dbe5f1;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 12px 35px
+    rgba(15, 23, 42, 0.06);
+}
+
+.payment-setting-heading {
+  max-width: 700px;
+  margin-bottom: 24px;
+}
+
+.payment-setting-heading > span {
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.payment-setting-heading h2 {
+  margin: 6px 0 8px;
+  color: #0f172a;
+  font-size: 27px;
+}
+
+.payment-setting-heading p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.payment-setting-layout {
+  display: grid;
+  align-items: start;
+  grid-template-columns:
+    minmax(220px, 0.7fr)
+    1fr;
+  gap: 25px;
+}
+
+.current-payment-qr {
+  display: grid;
+  min-height: 260px;
+  padding: 17px;
+  border: 1px dashed #bfdbfe;
+  border-radius: 15px;
+  background: #eff6ff;
+  place-items: center;
+  text-align: center;
+}
+
+.current-payment-qr img {
+  width: min(230px, 100%);
+  max-height: 230px;
+  object-fit: contain;
+}
+
+.current-payment-qr > div {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #15803d;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.current-payment-qr p {
+  margin: 7px 0 0;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.payment-qr-form {
+  display: grid;
+  gap: 16px;
+}
+
+.payment-qr-form label {
+  display: flex;
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 750;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.payment-qr-form input {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  outline: none;
+  font: inherit;
+}
+
+.payment-qr-form input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px
+    rgba(37, 99, 235, 0.12);
+}
+
+.upload-payment-qr {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 17px;
+  border: 0;
+  border-radius: 9px;
+  color: #ffffff;
+  background: #2563eb;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.upload-payment-qr:hover {
+  background: #1d4ed8;
+}
+
+.upload-payment-qr:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.payment-setting-message {
+  margin: 0;
+  color: #64748b;
+  font-size: 12px;
+}
+
+@media (max-width: 650px) {
+  .admin-payment-setting {
+    padding: 17px;
+  }
+
+  .payment-setting-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .current-payment-qr {
+    min-height: 210px;
+  }
+
+  .current-payment-qr img {
+    max-height: 190px;
+  }
+}

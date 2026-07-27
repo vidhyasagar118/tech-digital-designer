@@ -5,6 +5,11 @@ const API = axios.create({
     import.meta.env
       .VITE_API_URL ||
     "http://localhost:5000/api",
+
+  headers: {
+    "Content-Type":
+      "application/json",
+  },
 });
 
 API.interceptors.request.use(
@@ -15,11 +20,36 @@ API.interceptors.request.use(
       );
 
     if (token) {
+      config.headers =
+        config.headers || {};
+
       config.headers.Authorization =
         `Bearer ${token}`;
     }
 
     return config;
+  },
+
+  (error) =>
+    Promise.reject(error)
+);
+
+API.interceptors.response.use(
+  (response) => response,
+
+  (error) => {
+    if (
+      error.response?.status ===
+      401
+    ) {
+      console.warn(
+        "Authentication failed:",
+        error.response?.data
+          ?.message
+      );
+    }
+
+    return Promise.reject(error);
   }
 );
 

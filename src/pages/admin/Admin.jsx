@@ -4,8 +4,8 @@ import { useState } from "react";
 
 import AdminContent from "./AdminContent";
 import AdminUsers from "./AdminUsers";
+import AdminPaymentQR from "./AdminPaymentQR";
 import AdminEnquiries from "./AdminEnquiries";
-
 const tabs = [
   ["sliders", "Home Slider"],
   ["projects", "Projects"],
@@ -65,7 +65,10 @@ export default function Admin() {
           <AdminUsers />
         )}
 
+<AdminPaymentQR />
+
         {activeTab === "enquiries" && (
+          
           <AdminEnquiries />
         )}
       </div>

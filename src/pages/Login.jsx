@@ -2,8 +2,6 @@ import React, {
   useState,
 } from "react";
 
-import "./Auth.css";
-
 import {
   Link,
   useNavigate,
@@ -11,10 +9,12 @@ import {
 
 import API from "../api";
 import SEO from "../components/SEO";
-import "./Auth.css"
+
 import {
   useAuth,
 } from "../context/AuthContext";
+
+import "./Auth.css";
 
 export default function Login() {
   const [form, setForm] =
@@ -38,8 +38,8 @@ export default function Login() {
       value,
     } = event.target;
 
-    setForm((currentForm) => ({
-      ...currentForm,
+    setForm((current) => ({
+      ...current,
       [name]: value,
     }));
   }
@@ -57,23 +57,18 @@ export default function Login() {
           form
         );
 
-      const user =
-        response.data?.user;
+      /*
+       * AuthContext login() को पूरा
+       * response.data चाहिए:
+       * { token, user }
+       */
+      login(response.data);
 
-      const token =
-        response.data?.token ||
-        response.data?.accessToken;
-
-      if (!user) {
-        throw new Error(
-          "User information was not received."
-        );
-      }
-
-      login(user, token);
+      const role =
+        response.data?.user?.role;
 
       navigate(
-        user.role === "admin"
+        role === "admin"
           ? "/admin"
           : "/",
         {
@@ -87,9 +82,9 @@ export default function Login() {
       );
 
       setError(
-        error.response?.data?.message ||
-          error.message ||
-          "Login failed. Please check your details."
+        error.response?.data
+          ?.message ||
+          "Login failed. Check your email and password."
       );
     } finally {
       setSubmitting(false);
@@ -100,7 +95,7 @@ export default function Login() {
     <>
       <SEO
         title="Account Login"
-        description="Secure login page for Tech Digital Designers users and administrators."
+        description="Secure login for Tech Digital Designers users and administrators."
         path="/login"
         noIndex
       />
@@ -110,25 +105,18 @@ export default function Login() {
           className="auth-card"
           onSubmit={handleSubmit}
         >
-          <p className="auth-eyebrow">
-            Welcome Back
-          </p>
-
           <h1>
             User Login
           </h1>
 
-         
-
           <label>
-            Email Address
+            Email
 
             <input
               type="email"
               name="email"
               value={form.email}
               onChange={handleChange}
-              placeholder="Enter your email"
               autoComplete="email"
               required
             />
@@ -142,9 +130,7 @@ export default function Login() {
               name="password"
               value={form.password}
               onChange={handleChange}
-              placeholder="Enter your password"
               autoComplete="current-password"
-              minLength={6}
               required
             />
           </label>
@@ -155,7 +141,7 @@ export default function Login() {
             disabled={submitting}
           >
             {submitting
-              ? "Signing In..."
+              ? "Logging in..."
               : "Login"}
           </button>
 
@@ -168,11 +154,11 @@ export default function Login() {
             </p>
           )}
 
-          <p className="auth-switch">
+          <p>
             New user?{" "}
 
             <Link to="/register">
-              Create an account
+              Create account
             </Link>
           </p>
         </form>
