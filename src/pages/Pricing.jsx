@@ -1,79 +1,308 @@
-import React from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  CheckCircle2,
+} from "lucide-react";
+
 import "./Pricing.css";
-import { useEffect, useState } from "react";
-import { CheckCircle2 } from "lucide-react";
 
 import API from "../api";
 import PageHero from "../components/PageHero";
+import SEO from "../components/SEO";
 
 export default function Pricing() {
-  const [plans, setPlans] = useState([]);
+  const [plans, setPlans] =
+    useState([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
 
   useEffect(() => {
-    async function loadPricing() {
-      try {
-        const response = await API.get(
-          "/content/pricing"
-        );
+    let isMounted = true;
 
-        setPlans(response.data);
+    async function loadPricing() {
+      setLoading(true);
+      setError("");
+
+      try {
+        const response =
+          await API.get(
+            "/content/pricing"
+          );
+
+        if (!isMounted) {
+          return;
+        }
+
+        const pricingData =
+          Array.isArray(
+            response.data
+          )
+            ? response.data
+            : response.data?.items ||
+              response.data?.plans ||
+              [];
+
+        setPlans(pricingData);
       } catch (error) {
         console.error(
           "Pricing load error:",
           error
         );
+
+        if (isMounted) {
+          setError(
+            error.response?.data
+              ?.message ||
+              "Pricing plans could not be loaded."
+          );
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
     loadPricing();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
+
+  function formatPrice(price) {
+    const numericPrice =
+      Number(price);
+
+    if (
+      Number.isNaN(numericPrice)
+    ) {
+      return price || "Contact us";
+    }
+
+    return new Intl.NumberFormat(
+      "en-IN"
+    ).format(numericPrice);
+  }
+
+  function handleImageError(event) {
+    event.currentTarget.src =
+      "/pricing-placeholder.jpg";
+
+    event.currentTarget.onerror =
+      null;
+  }
 
   return (
     <>
+      <SEO
+        title="Website, App and Digital Marketing Pricing in India"
+        description="Explore affordable website development, ecommerce website, mobile app, SEO, digital marketing, social media promotion and graphic design packages from Tech Digital Designers."
+        keywords="Tech Digital Designers pricing, website development price India, ecommerce website cost, mobile app development price, SEO package price, digital marketing charges, social media marketing price, poster design price, affordable website packages"
+        path="/pricing"
+      />
+
       <PageHero
         eyebrow="Pricing"
-        title="Basic and advanced pricing plans"
-        text="The admin can change prices, features, images and plan names."
+        title="Flexible pricing plans for every business"
+        text="Compare website, application, marketing and creative service packages offered by Tech Digital Designers."
       />
 
       <section className="section">
-        <div className="container pricing-grid">
-          {plans.map((plan) => (
-            <article
-              className={
-                plan.highlighted
-                  ? "pricing-card highlighted"
-                  : "pricing-card"
-              }
-              key={plan._id}
+        <div className="container">
+          <div className="pricing-intro">
+            <span className="eyebrow">
+              Choose Your Plan
+            </span>
+
+            <h2>
+              Basic, moderate and advanced
+              digital solutions
+            </h2>
+
+            <p>
+              Select a suitable package or
+              contact us for a quotation based
+              on your project requirements.
+              Final prices may vary according
+              to features, integrations,
+              content and delivery timeline.
+            </p>
+          </div>
+
+          {loading && (
+            <div
+              className="pricing-message"
+              role="status"
             >
-              <img
-                src={plan.imageUrl}
-                alt={plan.planName}
-              />
+              Loading pricing plans...
+            </div>
+          )}
 
-              <small>
-                {plan.serviceName}
-              </small>
+          {!loading && error && (
+            <div
+              className="pricing-message pricing-error"
+              role="alert"
+            >
+              {error}
+            </div>
+          )}
 
-              <h2>{plan.planName}</h2>
+          {!loading &&
+            !error &&
+            plans.length === 0 && (
+              <div className="pricing-message">
+                No pricing plans are available
+                right now. Please contact us
+                for a custom quotation.
+              </div>
+            )}
 
-              <strong>
-                ₹{plan.price}
-              </strong>
+          {!loading &&
+            !error &&
+            plans.length > 0 && (
+              <div className="pricing-grid">
+                {plans.map(
+                  (plan, index) => {
+                    const features =
+                      Array.isArray(
+                        plan.features
+                      )
+                        ? plan.features
+                        : [];
 
-              <p>{plan.billingText}</p>
+                    return (
+                      <article
+                        className={
+                          plan.highlighted
+                            ? "pricing-card highlighted"
+                            : "pricing-card"
+                        }
+                        key={
+                          plan._id ||
+                          plan.id ||
+                          `${plan.planName}-${index}`
+                        }
+                      >
+                        {plan.highlighted && (
+                          <span className="pricing-badge">
+                            Most Popular
+                          </span>
+                        )}
 
-              <ul>
-                {plan.features.map((feature) => (
-                  <li key={feature}>
-                    <CheckCircle2 size={18} />
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
+                        <div className="pricing-image">
+                          <img
+                            src={
+                              plan.imageUrl ||
+                              "/pricing-placeholder.jpg"
+                            }
+                            alt={
+                              plan.planName
+                                ? `${plan.planName} pricing plan`
+                                : "Tech Digital Designers pricing plan"
+                            }
+                            loading="lazy"
+                            onError={
+                              handleImageError
+                            }
+                          />
+                        </div>
+
+                        {plan.serviceName && (
+                          <small className="pricing-service">
+                            {
+                              plan.serviceName
+                            }
+                          </small>
+                        )}
+
+                        <h2>
+                          {plan.planName ||
+                            "Custom Plan"}
+                        </h2>
+
+                        <div className="pricing-price">
+                          {plan.price !==
+                            undefined &&
+                          plan.price !==
+                            null &&
+                          plan.price !==
+                            "" ? (
+                            <>
+                              <span>
+                                ₹
+                              </span>
+
+                              <strong>
+                                {formatPrice(
+                                  plan.price
+                                )}
+                              </strong>
+                            </>
+                          ) : (
+                            <strong>
+                              Contact Us
+                            </strong>
+                          )}
+                        </div>
+
+                        <p className="pricing-billing">
+                          {plan.billingText ||
+                            "Price depends on project requirements."}
+                        </p>
+
+                        {features.length >
+                          0 && (
+                          <ul className="pricing-features">
+                            {features.map(
+                              (
+                                feature,
+                                featureIndex
+                              ) => (
+                                <li
+                                  key={`${feature}-${featureIndex}`}
+                                >
+                                  <CheckCircle2
+                                    size={
+                                      18
+                                    }
+                                    aria-hidden="true"
+                                  />
+
+                                  <span>
+                                    {
+                                      feature
+                                    }
+                                  </span>
+                                </li>
+                              )
+                            )}
+                          </ul>
+                        )}
+
+                        <a
+                          className="btn pricing-button"
+                          href={`/contact?service=${encodeURIComponent(
+                            plan.serviceName ||
+                              plan.planName ||
+                              "Custom Project"
+                          )}`}
+                        >
+                          Request This Plan
+                        </a>
+                      </article>
+                    );
+                  }
+                )}
+              </div>
+            )}
         </div>
       </section>
     </>

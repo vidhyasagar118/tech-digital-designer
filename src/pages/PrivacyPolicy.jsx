@@ -254,8 +254,8 @@ export default function PrivacyPolicy() {
             </a>
             <br />
             Email:{" "}
-            <a href="mailto:hello@webvistiq.com">
-              hello@webvistiq.com
+            <a href="mailto:hello@Tech Digital Designers.com">
+              hello@Tech Digital Designers.com
             </a>
           </address>
         </div>

@@ -1,20 +1,45 @@
-import React from "react";
-import { useState } from "react";
-import "./Navbar.css";
+import React, {
+  useState,
+} from "react";
+
 import {
   Link,
   NavLink,
 } from "react-router-dom";
-import { Menu, X } from "lucide-react";
 
-import { useAuth } from "../context/AuthContext";
+import {
+  Menu,
+  X,
+} from "lucide-react";
+
+import {
+  useAuth,
+} from "../context/AuthContext";
+
+import "./Navbar.css";
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
-  const { user, isAdmin, logout } = useAuth();
+  const [open, setOpen] =
+    useState(false);
+
+  const auth = useAuth();
+
+  const user =
+    auth?.user || null;
+
+  const isAdmin =
+    auth?.isAdmin || false;
+
+  const logout =
+    auth?.logout || (() => {});
 
   function closeMenu() {
     setOpen(false);
+  }
+
+  function handleLogout() {
+    logout();
+    closeMenu();
   }
 
   return (
@@ -24,29 +49,56 @@ export default function Navbar() {
           className="brand"
           to="/"
           onClick={closeMenu}
+          aria-label="Tech Digital Designers home"
         >
-          <span className="brand-mark">T</span>
+          <span className="brand-mark">
+            T
+          </span>
 
-<span>
-  Tech Digital Designer
-  <small>Digital Growth Studio</small>
-</span>
+          <span className="brand-content">
+            <strong>
+              Tech Digital Designers
+            </strong>
+
+            <small>
+              Digital Growth Studio
+            </small>
+          </span>
         </Link>
 
         <button
+          type="button"
           className="menu-button"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
+          onClick={() =>
+            setOpen(
+              (current) => !current
+            )
+          }
+          aria-label={
+            open
+              ? "Close navigation menu"
+              : "Open navigation menu"
+          }
+          aria-expanded={open}
         >
-          {open ? <X /> : <Menu />}
+          {open ? (
+            <X size={25} />
+          ) : (
+            <Menu size={25} />
+          )}
         </button>
 
         <nav
           className={
-            open ? "nav-links open" : "nav-links"
+            open
+              ? "nav-links open"
+              : "nav-links"
           }
         >
-          <NavLink to="/" onClick={closeMenu}>
+          <NavLink
+            to="/"
+            onClick={closeMenu}
+          >
             Home
           </NavLink>
 
@@ -71,7 +123,10 @@ export default function Navbar() {
             Pricing
           </NavLink>
 
-          <NavLink to="/about" onClick={closeMenu}>
+          <NavLink
+            to="/about"
+            onClick={closeMenu}
+          >
             About
           </NavLink>
 
@@ -93,11 +148,9 @@ export default function Navbar() {
 
           {user ? (
             <button
+              type="button"
               className="nav-login"
-              onClick={() => {
-                logout();
-                closeMenu();
-              }}
+              onClick={handleLogout}
             >
               Logout
             </button>

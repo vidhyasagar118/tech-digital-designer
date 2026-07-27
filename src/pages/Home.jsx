@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./home.css";
+import SEO from "../components/SEO";
 
+import {
+  organizationSchema,
+  websiteSchema,
+  homeServiceSchema,
+} from "../seo/schemas";
 import API from "../api";
 import Slider from "../components/Slider";
 import {
@@ -82,7 +88,23 @@ export default function Home() {
   }, []);
 
   return (
+    <>
+      <SEO
+    title="Tech Digital Designers - Website, App, SEO & Digital Marketing Company"
+    description="Grow your business with professional website development, mobile apps, SEO, digital marketing, social media promotion, poster design, ads creation and branding services by Tech Digital Designers."
+    keywords="Tech Digital Designers, tech digital designer, website development company, web designing company, app development company, digital marketing agency, SEO company India, social media marketing, Instagram promotion, Facebook promotion, WhatsApp marketing, poster design, graphic designer, business promotion, website developer Chittorgarh, website developer Motihari"
+    path="/"
+    schema={{
+      "@context": "https://schema.org",
+      "@graph": [
+        organizationSchema,
+        websiteSchema,
+        homeServiceSchema,
+      ],
+    }}
+  />
       <main className="home-page">
+        
 
       <Slider />
 
@@ -145,7 +167,7 @@ export default function Home() {
                       src={getImageUrl(service)}
                       alt={
                         service.title ||
-                        "WebVistiq service"
+                        "Tech Digital Designers service"
                       }
                       loading="lazy"
                       onError={handleImageError}
@@ -232,7 +254,7 @@ export default function Home() {
                       src={getImageUrl(project)}
                       alt={
                         project.title ||
-                        "WebVistiq project"
+                        "Tech Digital Designers project"
                       }
                       loading="lazy"
                       onError={handleImageError}
@@ -254,7 +276,7 @@ export default function Home() {
                     <p>
                       {project.shortDescription ||
                         project.description ||
-                        "A professionally completed WebVistiq project."}
+                        "A professionally completed Tech Digital Designers project."}
                     </p>
 
                     {project.liveUrl ? (
@@ -330,7 +352,7 @@ export default function Home() {
                       src={getImageUrl(plan)}
                       alt={
                         plan.planName ||
-                        "WebVistiq pricing plan"
+                        "Tech Digital Designers pricing plan"
                       }
                       loading="lazy"
                       onError={handleImageError}
@@ -402,7 +424,7 @@ export default function Home() {
             </h2>
 
             <p>
-              Contact WebVistiq for websites, apps,
+              Contact Tech Digital Designers for websites, apps,
               promotion, designs, advertisements and
               complete digital support.
             </p>
@@ -417,5 +439,6 @@ export default function Home() {
         </div>
       </section>
     </main>
+    </>
   );
 }

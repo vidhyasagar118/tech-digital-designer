@@ -8,7 +8,7 @@ import { Analytics } from "@vercel/analytics/react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import WebsiteDevelopment from "./pages/WebsiteDevelopment";
 import Home from "./pages/Home";
 import Services from "./pages/Services";
 import Projects from "./pages/Projects";
@@ -105,6 +105,10 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+  path="/services/website-development"
+  element={<WebsiteDevelopment />}
+/>
 
           <Route
             path="*"

@@ -2,35 +2,48 @@ import React, {
   useEffect,
   useState,
 } from "react";
+
 import "./Projects.css";
 
 import API from "../api";
 import PageHero from "../components/PageHero";
+import SEO from "../components/SEO";
 
 export default function Projects() {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [items, setItems] =
+    useState([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
 
   useEffect(() => {
     let isMounted = true;
 
     async function loadItems() {
+      setLoading(true);
+      setError("");
+
       try {
-        setLoading(true);
-        setError("");
+        const response =
+          await API.get(
+            "/content/projects"
+          );
 
-        const response = await API.get(
-          "/content/projects"
-        );
+        if (!isMounted) {
+          return;
+        }
 
-        if (!isMounted) return;
-
-        const projectsData = Array.isArray(
-          response.data
-        )
-          ? response.data
-          : response.data?.items || [];
+        const projectsData =
+          Array.isArray(
+            response.data
+          )
+            ? response.data
+            : response.data?.items ||
+              response.data?.projects ||
+              [];
 
         setItems(projectsData);
       } catch (error) {
@@ -41,8 +54,9 @@ export default function Projects() {
 
         if (isMounted) {
           setError(
-            error.response?.data?.message ||
-              "Projects load nahi ho sake."
+            error.response?.data
+              ?.message ||
+              "Projects could not be loaded."
           );
         }
       } finally {
@@ -59,120 +73,170 @@ export default function Projects() {
     };
   }, []);
 
+  function handleImageError(event) {
+    event.currentTarget.src =
+      "/project-placeholder.jpg";
+
+    event.currentTarget.onerror =
+      null;
+  }
+
   return (
-    <main className="projects-page">
-      <PageHero
-        eyebrow="Our Projects"
-        title="Projects created for different business needs"
-        text="Explore websites and digital platforms designed and developed by     Tech Digital Designer."
+    <>
+      <SEO
+        title="Website and App Development Portfolio"
+        description="Explore website development, ecommerce, education, business, car rental, taxi service and digital design projects completed by Tech Digital Designers."
+        keywords="Tech Digital Designers projects, website development portfolio, web design projects, React projects, app development portfolio, ecommerce website portfolio, digital agency projects India"
+        path="/projects"
       />
 
-      <section className="section projects-section">
-        <div className="container">
-          <div className="projects-heading">
-            <span className="eyebrow">
-              Recent Work
-            </span>
+      <main className="projects-page">
+        <PageHero
+          eyebrow="Our Projects"
+          title="Projects created for different business needs"
+          text="Explore websites and digital platforms designed and developed by Tech Digital Designers."
+        />
 
-            <h2>
-              Ideas transformed into useful digital
-              products
-            </h2>
+        <section className="section projects-section">
+          <div className="container">
+            <div className="projects-heading">
+              <span className="eyebrow">
+                Recent Work
+              </span>
 
-            <p>
-              Click on View Live Project to explore the
-              complete website.
-            </p>
-          </div>
+              <h2>
+                Ideas transformed into useful
+                digital products
+              </h2>
 
-          {loading && (
-            <div className="projects-message">
-              Loading projects...
+              <p>
+                Explore our website,
+                application and digital design
+                projects created for different
+                industries and business
+                requirements.
+              </p>
             </div>
-          )}
 
-          {!loading && error && (
-            <div className="projects-message projects-error">
-              {error}
-            </div>
-          )}
-
-          {!loading &&
-            !error &&
-            items.length === 0 && (
-              <div className="projects-message">
-                No projects available right now.
+            {loading && (
+              <div
+                className="projects-message"
+                role="status"
+              >
+                Loading projects...
               </div>
             )}
 
-          {!loading &&
-            !error &&
-            items.length > 0 && (
-              <div className="projects-grid">
-                {items.map((item) => (
-                  <article
-                    className="project-card"
-                    key={item._id}
-                  >
-                    <div className="project-image">
-                      <img
-                        src={item.imageUrl}
-                        alt={
-                          item.title ||
-                          "WebVistiq project"
+            {!loading && error && (
+              <div
+                className="projects-message projects-error"
+                role="alert"
+              >
+                {error}
+              </div>
+            )}
+
+            {!loading &&
+              !error &&
+              items.length === 0 && (
+                <div className="projects-message">
+                  No projects are available
+                  right now.
+                </div>
+              )}
+
+            {!loading &&
+              !error &&
+              items.length > 0 && (
+                <div className="projects-grid">
+                  {items.map(
+                    (item) => (
+                      <article
+                        className="project-card"
+                        key={
+                          item._id ||
+                          item.id ||
+                          item.title
                         }
-                        loading="lazy"
-                      />
+                      >
+                        <div className="project-image">
+                          <img
+                            src={
+                              item.imageUrl ||
+                              "/project-placeholder.jpg"
+                            }
+                            alt={
+                              item.title
+                                ? `${item.title} project by Tech Digital Designers`
+                                : "Digital project by Tech Digital Designers"
+                            }
+                            loading="lazy"
+                            onError={
+                              handleImageError
+                            }
+                          />
 
-                      {item.featured && (
-                        <span className="featured-label">
-                          Featured
-                        </span>
-                      )}
-                    </div>
+                          {item.featured && (
+                            <span className="featured-label">
+                              Featured
+                            </span>
+                          )}
+                        </div>
 
-                    <div className="project-content">
-                      {item.category && (
-                        <small>
-                          {item.category}
-                        </small>
-                      )}
+                        <div className="project-content">
+                          {item.category && (
+                            <small>
+                              {
+                                item.category
+                              }
+                            </small>
+                          )}
 
-                      <h3>
-                        {item.title ||
-                          "WebVistiq Project"}
-                      </h3>
+                          <h3>
+                            {item.title ||
+                              "Tech Digital Designers Project"}
+                          </h3>
 
-                      <p>
-                        {item.shortDescription ||
-                          item.description ||
-                          "A professionally developed digital project."}
-                      </p>
+                          <p>
+                            {item.shortDescription ||
+                              item.description ||
+                              "A professionally designed and developed digital project."}
+                          </p>
 
-                      {item.liveUrl ? (
-                        <a
-                          className="project-live-button"
-                          href={item.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          View Live Project
-                          <span aria-hidden="true">
-                            ↗
-                          </span>
-                        </a>
-                      ) : (
-                        <span className="project-unavailable">
-                          Live demo coming soon
-                        </span>
-                      )}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            )}
-        </div>
-      </section>
-    </main>
+                          {item.liveUrl ? (
+                            <a
+                              className="project-live-button"
+                              href={
+                                item.liveUrl
+                              }
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`View ${
+                                item.title ||
+                                "project"
+                              } live`}
+                            >
+                              View Live Project
+
+                              <span aria-hidden="true">
+                                ↗
+                              </span>
+                            </a>
+                          ) : (
+                            <span className="project-unavailable">
+                              Live demo coming
+                              soon
+                            </span>
+                          )}
+                        </div>
+                      </article>
+                    )
+                  )}
+                </div>
+              )}
+          </div>
+        </section>
+      </main>
+    </>
   );
 }

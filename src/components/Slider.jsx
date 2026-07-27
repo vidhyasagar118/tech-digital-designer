@@ -1,23 +1,49 @@
-import React from "react";
-import "./Slider.css";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  Link,
+} from "react-router-dom";
 
 import API from "../api";
 
+import "./Slider.css";
+
 export default function Slider() {
-  const [slides, setSlides] = useState([]);
-  const [activeIndex, setActiveIndex] =
-    useState(0);
+  const [slides, setSlides] =
+    useState([]);
+
+  const [
+    activeIndex,
+    setActiveIndex,
+  ] = useState(0);
 
   useEffect(() => {
+    let isMounted = true;
+
     async function loadSlides() {
       try {
-        const response = await API.get(
-          "/content/sliders"
-        );
+        const response =
+          await API.get(
+            "/content/sliders"
+          );
 
-        setSlides(response.data);
+        if (!isMounted) {
+          return;
+        }
+
+        const sliderData =
+          Array.isArray(
+            response.data
+          )
+            ? response.data
+            : response.data?.slides ||
+              response.data?.items ||
+              [];
+
+        setSlides(sliderData);
       } catch (error) {
         console.error(
           "Slider load error:",
@@ -27,6 +53,10 @@ export default function Slider() {
     }
 
     loadSlides();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -34,22 +64,40 @@ export default function Slider() {
       return undefined;
     }
 
-    const interval = setInterval(() => {
-      setActiveIndex((current) =>
-        (current + 1) % slides.length
-      );
-    }, 4500);
+    const interval =
+      window.setInterval(() => {
+        setActiveIndex(
+          (currentIndex) =>
+            (currentIndex + 1) %
+            slides.length
+        );
+      }, 4500);
 
-    return () => clearInterval(interval);
+    return () => {
+      window.clearInterval(
+        interval
+      );
+    };
   }, [slides.length]);
+
+  useEffect(() => {
+    if (
+      slides.length > 0 &&
+      activeIndex >= slides.length
+    ) {
+      setActiveIndex(0);
+    }
+  }, [
+    activeIndex,
+    slides.length,
+  ]);
 
   if (!slides.length) {
     return (
       <section className="fallback-hero">
         <div className="container">
           <span className="eyebrow">
-              Tech Digital Designer
-
+            Tech Digital Designers
           </span>
 
           <h1>
@@ -58,8 +106,9 @@ export default function Slider() {
           </h1>
 
           <p>
-            Websites, branding, promotion, social
-            media, SEO and professional design.
+            Websites, branding, promotion,
+            social media, SEO and professional
+            design.
           </p>
 
           <Link
@@ -73,7 +122,9 @@ export default function Slider() {
     );
   }
 
-  const slide = slides[activeIndex];
+  const slide =
+    slides[activeIndex] ||
+    slides[0];
 
   return (
     <section
@@ -84,42 +135,70 @@ export default function Slider() {
             rgba(15, 23, 42, 0.65),
             rgba(15, 23, 42, 0.65)
           ),
-          url(${slide.imageUrl})
+          url("${slide.imageUrl}")
         `,
       }}
     >
       <div className="container slider-content">
         <span className="eyebrow">
-                        Tech Digital Designer
-
+          Tech Digital Designers
         </span>
 
-        <h1>{slide.title}</h1>
-        <p>{slide.subtitle}</p>
+        <h1>
+          {slide.title ||
+            "Simple digital solutions for real business growth"}
+        </h1>
+
+        <p>
+          {slide.subtitle ||
+            "Websites, branding, promotion, social media, SEO and professional design."}
+        </p>
 
         <Link
           className="btn btn-light"
-          to={slide.buttonLink}
+          to={
+            slide.buttonLink ||
+            "/contact"
+          }
         >
-          {slide.buttonText}
+          {slide.buttonText ||
+            "Start a Project"}
         </Link>
 
-        <div className="slider-dots">
-          {slides.map((item, index) => (
-            <button
-              key={item._id}
-              className={
-                index === activeIndex
-                  ? "active"
-                  : ""
-              }
-              onClick={() =>
-                setActiveIndex(index)
-              }
-              aria-label={`Open slide ${index + 1}`}
-            />
-          ))}
-        </div>
+        {slides.length > 1 && (
+          <div className="slider-dots">
+            {slides.map(
+              (item, index) => (
+                <button
+                  type="button"
+                  key={
+                    item._id ||
+                    item.id ||
+                    index
+                  }
+                  className={
+                    index === activeIndex
+                      ? "active"
+                      : ""
+                  }
+                  onClick={() =>
+                    setActiveIndex(
+                      index
+                    )
+                  }
+                  aria-label={`Open slide ${
+                    index + 1
+                  }`}
+                  aria-current={
+                    index === activeIndex
+                      ? "true"
+                      : undefined
+                  }
+                />
+              )
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
