@@ -509,61 +509,283 @@
     gap: 28px;
   }
 }
-
-/* Mobile */
-@media (max-width: 580px) {
+/* Mobile: Home page पर exactly 3 cards */
+@media screen and (max-width: 768px) {
   .home-page .section {
-    padding: 60px 0;
+    padding: 52px 0;
   }
 
-  .section-heading,
-  .center-heading {
-    margin-bottom: 28px;
+  .home-page .container {
+    width: calc(100% - 12px);
   }
 
-  .section-heading h2,
-  .center-heading h2 {
+  .home-page .section-heading,
+  .home-page .center-heading {
+    margin-bottom: 24px;
+  }
+
+  .home-page .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .home-page .section-heading h2,
+  .home-page .center-heading h2 {
+    font-size: 27px;
+  }
+
+  .home-page .section-heading p,
+  .home-page .center-heading p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* Services और Projects: 3 cards */
+  body .home-page .card-grid {
+    display: grid !important;
+    width: 100% !important;
+    grid-template-columns: repeat(
+      3,
+      minmax(0, 1fr)
+    ) !important;
+    gap: 6px !important;
+  }
+
+  .home-page .content-card {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    border-radius: 9px;
+    box-shadow: 0 4px 12px
+      rgba(15, 23, 42, 0.07);
+  }
+
+  .home-page .content-card:hover {
+    box-shadow: 0 4px 12px
+      rgba(15, 23, 42, 0.07);
+    transform: none;
+  }
+
+  .home-page .content-card-image {
+    width: 100%;
+    height: 82px;
+  }
+
+  .home-page
+    .content-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-page
+    .content-card:hover
+    .content-card-image img {
+    transform: none;
+  }
+
+  .home-page .card-category {
+    top: 4px;
+    left: 4px;
+    max-width: calc(100% - 8px);
+    padding: 3px 4px;
+    overflow: hidden;
+    font-size: 6px;
+    letter-spacing: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .home-page .content-card-body {
+    display: flex;
+    min-width: 0;
+    min-height: 140px;
+    padding: 7px 6px;
+    flex-direction: column;
+  }
+
+  .home-page
+    .content-card-body h3 {
+    display: -webkit-box;
+    margin: 0 0 5px;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    font-size: 10px;
+    line-height: 1.2;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .home-page
+    .content-card-body p {
+    display: -webkit-box;
+    margin: 0 0 6px;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    font-size: 7px;
+    line-height: 1.3;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .home-page .card-link {
+    gap: 2px;
+    margin-top: auto;
+    overflow: hidden;
+    font-size: 7px;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .home-page .card-link::after {
+    font-size: 8px;
+  }
+
+  /* Home Pricing: exactly 3 cards */
+  body .home-page .pricing-grid {
+    display: grid !important;
+    width: 100% !important;
+    grid-template-columns: repeat(
+      3,
+      minmax(0, 1fr)
+    ) !important;
+    gap: 6px !important;
+  }
+
+  .home-page .pricing-card {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    border-radius: 9px;
+  }
+
+  .home-page .pricing-card:hover {
+    transform: none;
+  }
+
+  .home-page .pricing-image {
+    width: 100%;
+    height: 80px;
+  }
+
+  .home-page .pricing-card-body {
+    min-width: 0;
+    min-height: 220px;
+    padding: 8px 6px;
+  }
+
+  .home-page
+    .pricing-card-body > small {
+    margin-bottom: 4px;
+    overflow: hidden;
+    font-size: 6px;
+    letter-spacing: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .home-page
+    .pricing-card-body h3 {
+    margin: 0 0 5px;
+    overflow-wrap: anywhere;
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .home-page .price span {
+    margin-top: 2px;
+    font-size: 9px;
+  }
+
+  .home-page .price strong {
+    font-size: 17px;
+    letter-spacing: -0.5px;
+  }
+
+  .home-page .billing-text {
+    margin: 4px 0 7px;
+    font-size: 7px;
+    line-height: 1.25;
+  }
+
+  .home-page .pricing-features {
+    margin-bottom: 8px;
+    gap: 4px;
+  }
+
+  .home-page
+    .pricing-features li {
+    padding-left: 11px;
+    overflow-wrap: anywhere;
+    font-size: 6px;
+    line-height: 1.25;
+  }
+
+  .home-page
+    .pricing-features li::before {
+    top: 1px;
+    width: 8px;
+    height: 8px;
+    font-size: 5px;
+  }
+
+  .home-page .pricing-button {
+    min-height: 28px;
+    margin-top: auto;
+    padding: 5px 2px;
+    border-radius: 5px;
+    font-size: 7px;
+  }
+
+  .home-page .popular-badge {
+    top: 4px;
+    right: 4px;
+    padding: 3px 4px;
+    font-size: 5px;
+  }
+
+  /* CTA */
+  .home-page .home-cta {
+    padding: 48px 0;
+  }
+
+  .home-page .home-cta-content {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .home-page .home-cta h2 {
     font-size: 29px;
   }
 
-  .card-grid,
-  .pricing-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .content-card-image {
-    height: 210px;
-  }
-
-  .content-card-body {
-    min-height: auto;
-    padding: 20px;
-  }
-
-  .pricing-image {
-    height: 195px;
-  }
-
-  .pricing-card-body {
-    min-height: auto;
-    padding: 22px;
-  }
-
-  .price strong {
-    font-size: 38px;
-  }
-
-  .home-cta {
-    padding: 60px 0;
-  }
-
-  .home-cta h2 {
-    font-size: 31px;
-  }
-
-  .home-cta-button {
+  .home-page .home-cta-button {
     width: 100%;
     text-align: center;
+  }
+}
+
+/* Very small phones: still 3 cards */
+@media screen and (max-width: 380px) {
+  body .home-page .card-grid,
+  body .home-page .pricing-grid {
+    grid-template-columns: repeat(
+      3,
+      minmax(0, 1fr)
+    ) !important;
+    gap: 4px !important;
+  }
+
+  .home-page .content-card-image,
+  .home-page .pricing-image {
+    height: 70px;
+  }
+
+  .home-page .content-card-body,
+  .home-page .pricing-card-body {
+    padding-right: 4px;
+    padding-left: 4px;
   }
 }

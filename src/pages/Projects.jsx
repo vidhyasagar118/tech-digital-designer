@@ -3,11 +3,11 @@ import React, {
   useState,
 } from "react";
 
-import "./Projects.css";
-
 import API from "../api";
 import PageHero from "../components/PageHero";
 import SEO from "../components/SEO";
+
+import "./Projects.css";
 
 export default function Projects() {
   const [items, setItems] =
@@ -32,14 +32,10 @@ export default function Projects() {
             "/content/projects"
           );
 
-        if (!isMounted) {
-          return;
-        }
+        if (!isMounted) return;
 
         const projectsData =
-          Array.isArray(
-            response.data
-          )
+          Array.isArray(response.data)
             ? response.data
             : response.data?.items ||
               response.data?.projects ||
@@ -86,7 +82,7 @@ export default function Projects() {
       <SEO
         title="Website and App Development Portfolio"
         description="Explore website development, ecommerce, education, business, car rental, taxi service and digital design projects completed by Tech Digital Designers."
-        keywords="Tech Digital Designers projects, website development portfolio, web design projects, React projects, app development portfolio, ecommerce website portfolio, digital agency projects India"
+        keywords="Tech Digital Designers projects, website development portfolio, React projects, app development portfolio, ecommerce website portfolio"
         path="/projects"
       />
 
@@ -110,11 +106,9 @@ export default function Projects() {
               </h2>
 
               <p>
-                Explore our website,
-                application and digital design
-                projects created for different
-                industries and business
-                requirements.
+                Explore projects created for
+                different industries and
+                business requirements.
               </p>
             </div>
 
@@ -150,13 +144,13 @@ export default function Projects() {
               items.length > 0 && (
                 <div className="projects-grid">
                   {items.map(
-                    (item) => (
+                    (item, index) => (
                       <article
                         className="project-card"
                         key={
                           item._id ||
                           item.id ||
-                          item.title
+                          `${item.title}-${index}`
                         }
                       >
                         <div className="project-image">
@@ -167,8 +161,8 @@ export default function Projects() {
                             }
                             alt={
                               item.title
-                                ? `${item.title} project by Tech Digital Designers`
-                                : "Digital project by Tech Digital Designers"
+                                ? `${item.title} project`
+                                : "Tech Digital Designers project"
                             }
                             loading="lazy"
                             onError={
@@ -186,21 +180,19 @@ export default function Projects() {
                         <div className="project-content">
                           {item.category && (
                             <small>
-                              {
-                                item.category
-                              }
+                              {item.category}
                             </small>
                           )}
 
                           <h3>
                             {item.title ||
-                              "Tech Digital Designers Project"}
+                              "Digital Project"}
                           </h3>
 
                           <p>
                             {item.shortDescription ||
                               item.description ||
-                              "A professionally designed and developed digital project."}
+                              "A professionally designed digital project."}
                           </p>
 
                           {item.liveUrl ? (
@@ -211,10 +203,6 @@ export default function Projects() {
                               }
                               target="_blank"
                               rel="noopener noreferrer"
-                              aria-label={`View ${
-                                item.title ||
-                                "project"
-                              } live`}
                             >
                               View Live Project
 

@@ -7,11 +7,11 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-import "./Pricing.css";
-
 import API from "../api";
 import PageHero from "../components/PageHero";
 import SEO from "../components/SEO";
+
+import "./Pricing.css";
 
 export default function Pricing() {
   const [plans, setPlans] =
@@ -36,14 +36,10 @@ export default function Pricing() {
             "/content/pricing"
           );
 
-        if (!isMounted) {
-          return;
-        }
+        if (!isMounted) return;
 
         const pricingData =
-          Array.isArray(
-            response.data
-          )
+          Array.isArray(response.data)
             ? response.data
             : response.data?.items ||
               response.data?.plans ||
@@ -105,7 +101,7 @@ export default function Pricing() {
       <SEO
         title="Website, App and Digital Marketing Pricing in India"
         description="Explore affordable website development, ecommerce website, mobile app, SEO, digital marketing, social media promotion and graphic design packages from Tech Digital Designers."
-        keywords="Tech Digital Designers pricing, website development price India, ecommerce website cost, mobile app development price, SEO package price, digital marketing charges, social media marketing price, poster design price, affordable website packages"
+        keywords="Tech Digital Designers pricing, website development price India, ecommerce website cost, app development price, SEO packages, digital marketing charges, poster design price"
         path="/pricing"
       />
 
@@ -115,7 +111,7 @@ export default function Pricing() {
         text="Compare website, application, marketing and creative service packages offered by Tech Digital Designers."
       />
 
-      <section className="section">
+      <section className="section pricing-page-section">
         <div className="container">
           <div className="pricing-intro">
             <span className="eyebrow">
@@ -129,11 +125,10 @@ export default function Pricing() {
 
             <p>
               Select a suitable package or
-              contact us for a quotation based
-              on your project requirements.
-              Final prices may vary according
-              to features, integrations,
-              content and delivery timeline.
+              contact us for a custom quotation.
+              Final prices may vary according to
+              features, integrations, content
+              and delivery timeline.
             </p>
           </div>
 
@@ -215,88 +210,83 @@ export default function Pricing() {
                           />
                         </div>
 
-                        {plan.serviceName && (
+                        <div className="pricing-card-content">
                           <small className="pricing-service">
-                            {
-                              plan.serviceName
-                            }
+                            {plan.serviceName ||
+                              "Digital Service"}
                           </small>
-                        )}
 
-                        <h2>
-                          {plan.planName ||
-                            "Custom Plan"}
-                        </h2>
+                          <h2>
+                            {plan.planName ||
+                              "Custom Plan"}
+                          </h2>
 
-                        <div className="pricing-price">
-                          {plan.price !==
-                            undefined &&
-                          plan.price !==
-                            null &&
-                          plan.price !==
-                            "" ? (
-                            <>
-                              <span>
-                                ₹
-                              </span>
+                          <div className="pricing-price">
+                            {plan.price !==
+                              undefined &&
+                            plan.price !==
+                              null &&
+                            plan.price !==
+                              "" ? (
+                              <>
+                                <span>
+                                  ₹
+                                </span>
 
-                              <strong>
-                                {formatPrice(
-                                  plan.price
-                                )}
+                                <strong>
+                                  {formatPrice(
+                                    plan.price
+                                  )}
+                                </strong>
+                              </>
+                            ) : (
+                              <strong className="contact-price">
+                                Contact Us
                               </strong>
-                            </>
-                          ) : (
-                            <strong>
-                              Contact Us
-                            </strong>
-                          )}
-                        </div>
-
-                        <p className="pricing-billing">
-                          {plan.billingText ||
-                            "Price depends on project requirements."}
-                        </p>
-
-                        {features.length >
-                          0 && (
-                          <ul className="pricing-features">
-                            {features.map(
-                              (
-                                feature,
-                                featureIndex
-                              ) => (
-                                <li
-                                  key={`${feature}-${featureIndex}`}
-                                >
-                                  <CheckCircle2
-                                    size={
-                                      18
-                                    }
-                                    aria-hidden="true"
-                                  />
-
-                                  <span>
-                                    {
-                                      feature
-                                    }
-                                  </span>
-                                </li>
-                              )
                             )}
-                          </ul>
-                        )}
+                          </div>
 
-                        <a
-                          className="btn pricing-button"
-                          href={`/contact?service=${encodeURIComponent(
-                            plan.serviceName ||
-                              plan.planName ||
-                              "Custom Project"
-                          )}`}
-                        >
-                          Request This Plan
-                        </a>
+                          <p className="pricing-billing">
+                            {plan.billingText ||
+                              "Price depends on project requirements."}
+                          </p>
+
+                          {features.length >
+                            0 && (
+                            <ul className="pricing-features">
+                              {features.map(
+                                (
+                                  feature,
+                                  featureIndex
+                                ) => (
+                                  <li
+                                    key={`${feature}-${featureIndex}`}
+                                  >
+                                    <CheckCircle2
+                                      size={18}
+                                      aria-hidden="true"
+                                    />
+
+                                    <span>
+                                      {feature}
+                                    </span>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          )}
+
+                          <a
+                            className="btn pricing-button"
+                            href={`/contact?service=${encodeURIComponent(
+                              plan.serviceName ||
+                                plan.planName ||
+                                "Custom Project"
+                            )}`}
+                          >
+                            Request Plan
+                          </a>
+                        </div>
                       </article>
                     );
                   }

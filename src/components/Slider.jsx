@@ -30,14 +30,10 @@ export default function Slider() {
             "/content/sliders"
           );
 
-        if (!isMounted) {
-          return;
-        }
+        if (!isMounted) return;
 
         const sliderData =
-          Array.isArray(
-            response.data
-          )
+          Array.isArray(response.data)
             ? response.data
             : response.data?.slides ||
               response.data?.items ||
@@ -95,7 +91,7 @@ export default function Slider() {
   if (!slides.length) {
     return (
       <section className="fallback-hero">
-        <div className="container">
+        <div className="container slider-content">
           <span className="eyebrow">
             Tech Digital Designers
           </span>
@@ -132,8 +128,8 @@ export default function Slider() {
       style={{
         backgroundImage: `
           linear-gradient(
-            rgba(15, 23, 42, 0.65),
-            rgba(15, 23, 42, 0.65)
+            rgba(15, 23, 42, 0.68),
+            rgba(15, 23, 42, 0.68)
           ),
           url("${slide.imageUrl}")
         `,
