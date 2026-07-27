@@ -1,0 +1,34 @@
+.enquiry-card {
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05);
+}
+
+.enquiry-card h3 {
+  margin: 0 0 12px;
+  color: var(--heading);
+  font-size: 21px;
+}
+
+.enquiry-card p {
+  margin: 7px 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.enquiry-card select {
+  width: 100%;
+  min-height: 43px;
+  margin-top: 15px;
+  padding: 0 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  outline: none;
+  background: #ffffff;
+}
+
+.enquiry-card select:focus {
+  border-color: var(--primary);
+}

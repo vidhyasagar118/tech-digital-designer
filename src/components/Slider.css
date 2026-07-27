@@ -1,0 +1,107 @@
+.slider,
+.fallback-hero {
+  min-height: 660px;
+}
+
+.slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  background-position: center;
+  background-size: cover;
+  transition: background-image 0.5s ease;
+}
+
+.slider::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(2, 6, 23, 0.55), transparent 70%);
+  content: "";
+}
+
+.slider-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.slider .eyebrow {
+  color: #bfdbfe;
+}
+
+.slider h1,
+.fallback-hero h1 {
+  max-width: 850px;
+  margin: 14px 0 18px;
+  font-size: clamp(44px, 7vw, 76px);
+  line-height: 1.04;
+}
+
+.slider p,
+.fallback-hero p {
+  max-width: 690px;
+  margin: 0 0 30px;
+  font-size: 19px;
+  line-height: 1.75;
+}
+
+.btn-light {
+  color: var(--primary-dark);
+  background: #ffffff;
+}
+
+.slider-dots {
+  display: flex;
+  gap: 9px;
+  margin-top: 38px;
+}
+
+.slider-dots button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.slider-dots button.active {
+  width: 30px;
+  background: #ffffff;
+}
+
+.fallback-hero {
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.18), transparent 28%),
+    linear-gradient(135deg, #eff6ff, #ffffff);
+}
+
+.fallback-hero h1 {
+  color: var(--heading);
+}
+
+.fallback-hero p {
+  color: var(--muted);
+}
+
+@media (max-width: 650px) {
+  .slider,
+  .fallback-hero {
+    min-height: 560px;
+  }
+
+  .slider h1,
+  .fallback-hero h1 {
+    font-size: 43px;
+  }
+
+  .slider p,
+  .fallback-hero p {
+    font-size: 16px;
+  }
+}

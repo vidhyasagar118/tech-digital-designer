@@ -1,0 +1,44 @@
+.admin-page {
+  min-height: calc(100vh - 86px);
+  padding: 55px 0 80px;
+  background: #f5f8fd;
+}
+
+.admin-heading {
+  margin-bottom: 25px;
+}
+
+.admin-heading h1 {
+  margin: 8px 0 0;
+  color: var(--heading);
+  font-size: clamp(31px, 4vw, 45px);
+}
+
+.admin-tabs {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  margin-bottom: 28px;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.admin-tabs button {
+  min-height: 43px;
+  padding: 0 17px;
+  border: 0;
+  border-radius: 9px;
+  color: #475569;
+  background: transparent;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.admin-tabs button.active,
+.admin-tabs button:hover {
+  color: #ffffff;
+  background: var(--primary);
+}

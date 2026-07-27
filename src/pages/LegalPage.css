@@ -1,0 +1,15 @@
+.simple-content {
+  max-width: 850px;
+  padding: 34px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 32px rgba(15, 23, 42, 0.05);
+}
+
+.simple-content p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.9;
+}
