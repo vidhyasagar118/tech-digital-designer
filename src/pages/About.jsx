@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 
 import PageHero from "../components/PageHero";
-import "./about.css";
+import "./About.css";
 
 const values = [
   {
