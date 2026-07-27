@@ -7,6 +7,11 @@ import {
   Link,
 } from "react-router-dom";
 
+import {
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+
 import API from "../api";
 
 import "./Slider.css";
@@ -30,16 +35,26 @@ export default function Slider() {
             "/content/sliders"
           );
 
-        if (!isMounted) return;
+        if (!isMounted) {
+          return;
+        }
 
         const sliderData =
-          Array.isArray(response.data)
+          Array.isArray(
+            response.data
+          )
             ? response.data
             : response.data?.slides ||
               response.data?.items ||
               [];
 
-        setSlides(sliderData);
+        const activeSlides =
+          sliderData.filter(
+            (slide) =>
+              slide.active !== false
+          );
+
+        setSlides(activeSlides);
       } catch (error) {
         console.error(
           "Slider load error:",
@@ -67,7 +82,7 @@ export default function Slider() {
             (currentIndex + 1) %
             slides.length
         );
-      }, 4500);
+      }, 5000);
 
     return () => {
       window.clearInterval(
@@ -88,31 +103,52 @@ export default function Slider() {
     slides.length,
   ]);
 
+  function showPreviousSlide() {
+    setActiveIndex(
+      (currentIndex) =>
+        currentIndex === 0
+          ? slides.length - 1
+          : currentIndex - 1
+    );
+  }
+
+  function showNextSlide() {
+    setActiveIndex(
+      (currentIndex) =>
+        (currentIndex + 1) %
+        slides.length
+    );
+  }
+
   if (!slides.length) {
     return (
       <section className="fallback-hero">
+        <div className="slider-overlay" />
+
         <div className="container slider-content">
-          <span className="eyebrow">
-            Tech Digital Designers
-          </span>
+          <div className="slider-text">
+            <span className="eyebrow">
+              Tech Digital Designers
+            </span>
 
-          <h1>
-            Simple digital solutions for real
-            business growth
-          </h1>
+            <h1>
+              Simple digital solutions for
+              real business growth
+            </h1>
 
-          <p>
-            Websites, branding, promotion,
-            social media, SEO and professional
-            design.
-          </p>
+            <p>
+              Websites, branding, promotion,
+              social media, SEO and
+              professional design.
+            </p>
 
-          <Link
-            className="btn"
-            to="/contact"
-          >
-            Start a Project
-          </Link>
+            <Link
+              className="btn slider-button"
+              to="/contact"
+            >
+              Start a Project
+            </Link>
+          </div>
         </div>
       </section>
     );
@@ -122,47 +158,90 @@ export default function Slider() {
     slides[activeIndex] ||
     slides[0];
 
+  const slideKey =
+    slide._id ||
+    slide.id ||
+    activeIndex;
+
   return (
     <section
       className="slider"
       style={{
         backgroundImage: `
           linear-gradient(
-            rgba(15, 23, 42, 0.68),
-            rgba(15, 23, 42, 0.68)
+            90deg,
+            rgba(2, 6, 23, 0.82) 0%,
+            rgba(15, 23, 42, 0.64) 48%,
+            rgba(15, 23, 42, 0.38) 100%
           ),
           url("${slide.imageUrl}")
         `,
       }}
     >
+      <div className="slider-overlay" />
+
       <div className="container slider-content">
-        <span className="eyebrow">
-          Tech Digital Designers
-        </span>
-
-        <h1>
-          {slide.title ||
-            "Simple digital solutions for real business growth"}
-        </h1>
-
-        <p>
-          {slide.subtitle ||
-            "Websites, branding, promotion, social media, SEO and professional design."}
-        </p>
-
-        <Link
-          className="btn btn-light"
-          to={
-            slide.buttonLink ||
-            "/contact"
-          }
+        <div
+          className="slider-text"
+          key={slideKey}
         >
-          {slide.buttonText ||
-            "Start a Project"}
-        </Link>
+          <span className="eyebrow">
+            Tech Digital Designers
+          </span>
 
-        {slides.length > 1 && (
-          <div className="slider-dots">
+          <h1>
+            {slide.title ||
+              "Simple digital solutions for real business growth"}
+          </h1>
+
+          <p>
+            {slide.subtitle ||
+              "Websites, branding, promotion, social media, SEO and professional design."}
+          </p>
+
+          <Link
+            className="btn btn-light slider-button"
+            to={
+              slide.buttonLink ||
+              "/contact"
+            }
+          >
+            {slide.buttonText ||
+              "Start a Project"}
+          </Link>
+        </div>
+      </div>
+
+      {slides.length > 1 && (
+        <>
+          <button
+            type="button"
+            className="slider-arrow slider-arrow-left"
+            onClick={showPreviousSlide}
+            aria-label="Previous slide"
+          >
+            <ChevronLeft
+              size={25}
+              aria-hidden="true"
+            />
+          </button>
+
+          <button
+            type="button"
+            className="slider-arrow slider-arrow-right"
+            onClick={showNextSlide}
+            aria-label="Next slide"
+          >
+            <ChevronRight
+              size={25}
+              aria-hidden="true"
+            />
+          </button>
+
+          <div
+            className="slider-dots"
+            aria-label="Slider navigation"
+          >
             {slides.map(
               (item, index) => (
                 <button
@@ -194,8 +273,8 @@ export default function Slider() {
               )
             )}
           </div>
-        )}
-      </div>
+        </>
+      )}
     </section>
   );
 }

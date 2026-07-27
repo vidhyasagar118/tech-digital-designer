@@ -1,74 +1,219 @@
 .footer {
-  padding-top: 68px;
+  padding-top: 62px;
   color: #cbd5e1;
   background: #0f172a;
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.5fr 0.8fr 0.9fr 1.25fr;
-  gap: 45px;
+  align-items: start;
+  grid-template-columns:
+    1.5fr 0.75fr 0.9fr 1.25fr;
+  gap: 42px;
+}
+
+.footer-about {
+  min-width: 0;
 }
 
 .footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   color: #ffffff;
+  text-decoration: none;
 }
 
-.footer p {
-  max-width: 380px;
-  margin: 20px 0 0;
-  color: #94a3b8;
-  line-height: 1.75;
-}
-
-.footer h4 {
-  margin: 0 0 18px;
+.footer-brand-mark {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 13px;
   color: #ffffff;
-  font-size: 16px;
+  background: #2563eb;
+  font-size: 26px;
+  font-weight: 900;
+  place-items: center;
 }
 
-.footer-grid > div {
+.footer-brand-text {
   display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.footer-brand-text strong {
+  color: #ffffff;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  line-height: 1.15;
+}
+
+.footer-brand-text small {
+  margin-top: 3px;
+  color: #94a3b8;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.footer-about > p {
+  max-width: 350px;
+  margin: 17px 0 0;
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.footer-column {
+  display: flex;
+  min-width: 0;
   align-items: flex-start;
   flex-direction: column;
 }
 
-.footer-grid a,
-.footer-grid span:not(.brand-mark) {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  margin-bottom: 12px;
-  color: #cbd5e1;
-  text-decoration: none;
-  line-height: 1.5;
+.footer h4 {
+  margin: 0 0 17px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
 }
 
-.footer-grid a:hover {
+.footer-column > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 11px;
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-column > a:hover {
   color: #ffffff;
 }
 
+.footer-contact > a,
+.footer-contact-item {
+  display: flex;
+  max-width: 100%;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: #cbd5e1;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.footer-contact svg {
+  margin-top: 2px;
+  flex-shrink: 0;
+  color: #60a5fa;
+}
+
+.footer-contact span {
+  overflow-wrap: anywhere;
+}
+
 .footer-bottom {
-  margin-top: 50px;
-  padding: 22px 0;
-  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  margin-top: 45px;
+  padding-top: 21px;
+  padding-bottom: 21px;
+  border-top: 1px solid
+    rgba(148, 163, 184, 0.2);
   color: #94a3b8;
+  font-size: 13px;
   text-align: center;
 }
 
 @media (max-width: 900px) {
   .footer-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+    gap: 35px;
   }
 }
 
+/* Compact mobile footer */
 @media (max-width: 560px) {
   .footer {
-    padding-top: 50px;
+    padding-top: 30px;
+  }
+
+  .footer .container {
+    width: calc(100% - 24px);
   }
 
   .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 25px 16px;
+  }
+
+  .footer-about {
+    grid-column: 1 / -1;
+  }
+
+  .footer-brand {
+    gap: 9px;
+  }
+
+  .footer-brand-mark {
+    width: 41px;
+    height: 41px;
+    border-radius: 10px;
+    font-size: 21px;
+  }
+
+  .footer-brand-text strong {
+    font-size: 17px;
+  }
+
+  .footer-brand-text small {
+    font-size: 10px;
+  }
+
+  .footer-about > p {
+    max-width: 100%;
+    margin-top: 11px;
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .footer h4 {
+    margin-bottom: 11px;
+    font-size: 13px;
+  }
+
+  .footer-column > a {
+    margin-bottom: 7px;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .footer-contact {
+    grid-column: 1 / -1;
+  }
+
+  .footer-contact > a,
+  .footer-contact-item {
+    margin-bottom: 8px;
+    font-size: 11px;
+  }
+
+  .footer-contact svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .footer-bottom {
+    margin-top: 24px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 10px;
   }
 }
