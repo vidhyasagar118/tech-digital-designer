@@ -307,7 +307,15 @@ export default function Home() {
       {/* Pricing */}
       <section className="section pricing-section">
         <div className="container">
+                            <Link
+              className="section-link"
+              to="/pricing"
+            >
+              View all pricing
+            </Link>
+            
           <div className="center-heading">
+            
             <span className="eyebrow">
               Flexible Pricing
             </span>
@@ -321,6 +329,7 @@ export default function Home() {
               a custom quotation.
             </p>
           </div>
+
 
           {loading ? (
             <div className="content-loading">
@@ -406,9 +415,14 @@ export default function Home() {
                   </div>
                 </article>
               ))}
+
             </div>
+            
           )}
+                        
+             
         </div>
+        
       </section>
 
       {/* CTA */}
