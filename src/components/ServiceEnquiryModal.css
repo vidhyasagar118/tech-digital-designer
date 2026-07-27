@@ -1,0 +1,410 @@
+.service-modal-backdrop {
+  position: fixed;
+  z-index: 5000;
+  inset: 0;
+  display: grid;
+  padding: 20px;
+  overflow-y: auto;
+  background:
+    rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(7px);
+  place-items: center;
+}
+
+.service-modal {
+  position: relative;
+  width: min(720px, 100%);
+  max-height: calc(100vh - 40px);
+  padding: 34px;
+  overflow-y: auto;
+  border: 1px solid #dbe5f1;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 30px 80px
+    rgba(2, 6, 23, 0.3);
+  animation:
+    serviceModalOpen 0.3s ease
+    both;
+}
+
+@keyframes serviceModalOpen {
+  from {
+    opacity: 0;
+    transform:
+      translateY(20px)
+      scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+.service-modal-close {
+  position: absolute;
+  z-index: 3;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  width: 39px;
+  height: 39px;
+  padding: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  color: #475569;
+  background: #ffffff;
+  cursor: pointer;
+  place-items: center;
+}
+
+.service-modal-close:hover {
+  color: #ffffff;
+  background: #dc2626;
+}
+
+.service-modal-header {
+  padding-right: 45px;
+}
+
+.service-modal-header h2 {
+  margin: 8px 0 9px;
+  color: #0f172a;
+  font-size: 31px;
+  line-height: 1.2;
+}
+
+.service-modal-header p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.65;
+}
+
+.selected-service {
+  display: grid;
+  align-items: center;
+  margin: 24px 0;
+  padding: 13px;
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  background: #eff6ff;
+  grid-template-columns: 100px 1fr;
+  gap: 15px;
+}
+
+.selected-service img {
+  width: 100px;
+  height: 82px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.selected-service small,
+.selected-service strong {
+  display: block;
+}
+
+.selected-service small {
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.selected-service strong {
+  margin-top: 3px;
+  color: #0f172a;
+  font-size: 17px;
+}
+
+.selected-service p {
+  display: -webkit-box;
+  margin: 5px 0 0;
+  overflow: hidden;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.service-enquiry-form {
+  display: grid;
+  gap: 18px;
+}
+
+.enquiry-form-row {
+  display: grid;
+  grid-template-columns: repeat(
+    2,
+    minmax(0, 1fr)
+  );
+  gap: 17px;
+}
+
+.service-enquiry-form label {
+  display: flex;
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 750;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.service-enquiry-form input,
+.service-enquiry-form select,
+.service-enquiry-form textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  outline: none;
+  color: #0f172a;
+  background: #ffffff;
+  font: inherit;
+  font-weight: 400;
+}
+
+.service-enquiry-form input,
+.service-enquiry-form select {
+  min-height: 49px;
+  padding: 0 13px;
+}
+
+.service-enquiry-form textarea {
+  min-height: 120px;
+  padding: 12px 13px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.service-enquiry-form input:focus,
+.service-enquiry-form select:focus,
+.service-enquiry-form textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px
+    rgba(37, 99, 235, 0.12);
+}
+
+.service-enquiry-form
+  .whatsapp-consent {
+  display: flex;
+  align-items: flex-start;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.55;
+  flex-direction: row;
+  gap: 9px;
+}
+
+.whatsapp-consent input {
+  width: 17px;
+  min-height: 17px;
+  height: 17px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: #2563eb;
+}
+
+.service-form-error {
+  margin: 0;
+  padding: 11px 13px;
+  border: 1px solid #fecaca;
+  border-radius: 9px;
+  color: #b91c1c;
+  background: #fff1f2;
+  font-size: 12px;
+}
+
+.service-submit-button {
+  width: 100%;
+  gap: 8px;
+}
+
+.service-submit-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.service-success {
+  padding: 20px 5px 5px;
+  text-align: center;
+}
+
+.service-success-icon {
+  display: grid;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  color: #ffffff;
+  background: #16a34a;
+  place-items: center;
+}
+
+.service-success > span {
+  color: #16a34a;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.service-success h2 {
+  max-width: 520px;
+  margin: 9px auto 12px;
+  color: #0f172a;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.service-success > p {
+  max-width: 560px;
+  margin: 0 auto;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.enquiry-id {
+  display: flex;
+  margin: 20px auto;
+  padding: 11px 14px;
+  border: 1px dashed #bfdbfe;
+  border-radius: 9px;
+  color: #475569;
+  background: #eff6ff;
+  font-size: 12px;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.enquiry-id strong {
+  overflow-wrap: anywhere;
+  color: #0f172a;
+}
+
+.success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 11px;
+  margin-top: 20px;
+}
+
+.whatsapp-action {
+  gap: 7px;
+  background: #16a34a;
+}
+
+.whatsapp-action:hover {
+  background: #15803d;
+}
+
+.call-action {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 11px 19px;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  color: #2563eb;
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.success-note {
+  margin-top: 18px !important;
+  font-size: 12px;
+}
+
+.close-success {
+  margin-top: 18px;
+  padding: 8px 14px;
+  border: 0;
+  color: #64748b;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .service-modal-backdrop {
+    padding: 8px;
+    align-items: end;
+  }
+
+  .service-modal {
+    width: 100%;
+    max-height: 94svh;
+    padding: 25px 17px;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .service-modal-close {
+    top: 12px;
+    right: 12px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .service-modal-header h2 {
+    font-size: 24px;
+  }
+
+  .selected-service {
+    margin: 18px 0;
+    padding: 10px;
+    grid-template-columns: 75px 1fr;
+    gap: 10px;
+  }
+
+  .selected-service img {
+    width: 75px;
+    height: 67px;
+  }
+
+  .selected-service strong {
+    font-size: 14px;
+  }
+
+  .selected-service p {
+    font-size: 10px;
+  }
+
+  .enquiry-form-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .service-enquiry-form {
+    gap: 15px;
+  }
+
+  .service-enquiry-form input,
+  .service-enquiry-form select {
+    min-height: 45px;
+  }
+
+  .service-enquiry-form textarea {
+    min-height: 105px;
+  }
+
+  .service-success h2 {
+    font-size: 24px;
+  }
+
+  .success-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .whatsapp-action,
+  .call-action {
+    width: 100%;
+  }
+}

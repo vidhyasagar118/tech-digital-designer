@@ -358,6 +358,7 @@
   }
 }
 
+
 /* बहुत छोटे phone पर भी 3 cards */
 @media screen and (max-width: 380px) {
   body .services-grid {

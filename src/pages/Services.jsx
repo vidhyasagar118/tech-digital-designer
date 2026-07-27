@@ -1,43 +1,72 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  Link,
+} from "react-router-dom";
 
 import API from "../api";
 import PageHero from "../components/PageHero";
+import SEO from "../components/SEO";
+
+import ServiceEnquiryModal from "../components/ServiceEnquiryModal";
+
 import "./services.css";
 
 export default function Services() {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [items, setItems] =
+    useState([]);
+
+  const [
+    selectedService,
+    setSelectedService,
+  ] = useState(null);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
 
   useEffect(() => {
     let isMounted = true;
 
     async function loadItems() {
+      setLoading(true);
+      setError("");
+
       try {
-        setLoading(true);
-        setError("");
+        const response =
+          await API.get(
+            "/content/services"
+          );
 
-        const response = await API.get(
-          "/content/services"
-        );
+        if (!isMounted) {
+          return;
+        }
 
-        if (!isMounted) return;
-
-        const servicesData = Array.isArray(
-          response.data
-        )
-          ? response.data
-          : response.data?.items || [];
+        const servicesData =
+          Array.isArray(
+            response.data
+          )
+            ? response.data
+            : response.data?.items ||
+              [];
 
         setItems(servicesData);
-      } catch (err) {
-        console.error("Services load error:", err);
+      } catch (error) {
+        console.error(
+          "Services load error:",
+          error
+        );
 
         if (isMounted) {
           setError(
-            err.response?.data?.message ||
-              "Services could not be loaded. Please try again later."
+            error.response?.data
+              ?.message ||
+              "Services could not be loaded."
           );
         }
       } finally {
@@ -54,13 +83,27 @@ export default function Services() {
     };
   }, []);
 
+  function handleImageError(event) {
+    event.currentTarget.src =
+      "/service-placeholder.jpg";
+
+    event.currentTarget.onerror =
+      null;
+  }
+
   return (
     <>
+      <SEO
+        title="Website, App and Digital Marketing Services"
+        description="Explore website development, mobile app development, ecommerce, SEO, digital marketing, promotion, graphic design and branding services by Tech Digital Designers."
+        keywords="Tech Digital Designers services, website development, app development, ecommerce website, SEO services, digital marketing, poster design"
+        path="/services"
+      />
+
       <PageHero
         eyebrow="Our Services"
         title="Complete digital services for businesses and professionals"
-        text="From websites and mobile apps to social media promotion, advertising, poster design, branding and SEO,   Tech Digital Designer
- provides complete digital support."
+        text="From websites and mobile apps to social media promotion, advertising, poster design, branding and SEO, Tech Digital Designers provides complete digital support."
       />
 
       <section className="section">
@@ -71,13 +114,15 @@ export default function Services() {
             </span>
 
             <h2>
-              Everything you need to build and grow
-              your business online
+              Everything you need to build
+              and grow your business online
             </h2>
 
             <p>
-              All services added from the admin panel
-              will automatically appear on this page.
+              Select a service and share your
+              requirements. Your enquiry will
+              be saved and prepared for
+              WhatsApp.
             </p>
           </div>
 
@@ -97,7 +142,8 @@ export default function Services() {
             !error &&
             items.length === 0 && (
               <div className="services-loading">
-                No services available right now.
+                No services are available
+                right now.
               </div>
             )}
 
@@ -105,49 +151,65 @@ export default function Services() {
             !error &&
             items.length > 0 && (
               <div className="services-grid">
-                {items.map((item) => (
-                  <article
-                    className="service-card"
-                    key={item._id}
-                  >
-                    <div className="service-image">
-                      <img
-                        src={item.imageUrl}
-                        alt={
-                          item.title ||
-                          "              Tech Digital Designer service"
-                        }
-                        loading="lazy"
-                      />
+                {items.map(
+                  (item, index) => (
+                    <article
+                      className="service-card"
+                      key={
+                        item._id ||
+                        `${item.title}-${index}`
+                      }
+                    >
+                      <div className="service-image">
+                        <img
+                          src={
+                            item.imageUrl ||
+                            "/service-placeholder.jpg"
+                          }
+                          alt={
+                            item.title ||
+                            "Tech Digital Designers service"
+                          }
+                          loading="lazy"
+                          onError={
+                            handleImageError
+                          }
+                        />
 
-                      {item.category && (
-                        <span className="service-category">
-                          {item.category}
-                        </span>
-                      )}
-                    </div>
+                        {item.category && (
+                          <span className="service-category">
+                            {item.category}
+                          </span>
+                        )}
+                      </div>
 
-                    <div className="service-content">
-                      <h3>
-                        {item.title ||
-                          "Digital Service"}
-                      </h3>
+                      <div className="service-content">
+                        <h3>
+                          {item.title ||
+                            "Digital Service"}
+                        </h3>
 
-                      <p>
-                        {item.shortDescription ||
-                          item.description ||
-                          "Professional digital service for your business."}
-                      </p>
+                        <p>
+                          {item.shortDescription ||
+                            item.description ||
+                            "Professional digital service for your business."}
+                        </p>
 
-                      <Link
-                        className="service-link"
-                        to="/contact"
-                      >
-                        Get This Service
-                      </Link>
-                    </div>
-                  </article>
-                ))}
+                        <button
+                          type="button"
+                          className="service-link"
+                          onClick={() =>
+                            setSelectedService(
+                              item
+                            )
+                          }
+                        >
+                          Get This Service
+                        </button>
+                      </div>
+                    </article>
+                  )
+                )}
               </div>
             )}
         </div>
@@ -165,9 +227,10 @@ export default function Services() {
             </h2>
 
             <p>
-              We can create a custom website, app,
-              marketing plan, advertising campaign or
-              design package according to your budget.
+              We can create a custom website,
+              application, marketing plan or
+              design package according to your
+              requirements and budget.
             </p>
           </div>
 
@@ -179,6 +242,15 @@ export default function Services() {
           </Link>
         </div>
       </section>
+
+      {selectedService && (
+        <ServiceEnquiryModal
+          service={selectedService}
+          onClose={() =>
+            setSelectedService(null)
+          }
+        />
+      )}
     </>
   );
 }

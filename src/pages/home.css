@@ -916,3 +916,34 @@
     font-size: 10px;
   }
 }
+.service-image-button {
+  padding: 0;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.service-enquiry-button {
+  padding: 0;
+  border: 0;
+  color: var(
+    --primary,
+    #2563eb
+  );
+  background: transparent;
+  box-shadow: none;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.service-enquiry-button:hover {
+  color: var(
+    --primary-dark,
+    #1d4ed8
+  );
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}

@@ -118,10 +118,7 @@ export default function Login() {
             User Login
           </h1>
 
-          <p className="auth-description">
-            Sign in to access your Tech
-            Digital Designers account.
-          </p>
+         
 
           <label>
             Email Address
