@@ -947,3 +947,120 @@
   box-shadow: none;
   transform: none;
 }
+
+/* Home service category cards */
+.home-service-category-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.home-service-category-card {
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 16px;
+  color: inherit;
+  background: #fff;
+  box-shadow: 0 9px 25px rgba(15, 23, 42, 0.06);
+  text-decoration: none;
+  flex-direction: column;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.home-service-category-card:hover {
+  border-color: #bfdbfe;
+  box-shadow: 0 15px 34px rgba(37, 99, 235, 0.13);
+  transform: translateY(-5px);
+}
+
+.home-service-category-image {
+  height: 132px;
+  overflow: hidden;
+  background: #eff6ff;
+}
+
+.home-service-category-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.home-service-category-card:hover img {
+  transform: scale(1.05);
+}
+
+.home-service-category-body {
+  display: flex;
+  min-height: 155px;
+  padding: 15px 13px;
+  flex-direction: column;
+}
+
+.home-service-category-body h3 {
+  margin: 0 0 7px;
+  color: var(--heading, #0f172a);
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.home-service-category-body p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: var(--muted, #64748b);
+  font-size: 11px;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.home-service-category-body span {
+  margin-top: auto;
+  color: var(--primary, #2563eb);
+  font-size: 21px;
+  font-weight: 900;
+  align-self: flex-end;
+}
+
+@media (max-width: 1100px) {
+  .home-service-category-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .home-service-category-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .home-service-category-card {
+    border-radius: 10px;
+  }
+
+  .home-service-category-image {
+    height: 82px;
+  }
+
+  .home-service-category-body {
+    min-height: 124px;
+    padding: 8px 7px;
+  }
+
+  .home-service-category-body h3 {
+    font-size: 10px;
+  }
+
+  .home-service-category-body p {
+    font-size: 7px;
+    line-height: 1.35;
+  }
+
+  .home-service-category-body span {
+    font-size: 15px;
+  }
+}

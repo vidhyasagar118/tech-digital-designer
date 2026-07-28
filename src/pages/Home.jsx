@@ -1,5 +1,6 @@
 import React, {
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -11,8 +12,6 @@ import API from "../api";
 
 import SEO from "../components/SEO";
 import Slider from "../components/Slider";
-
-import ServiceEnquiryModal from "../components/ServiceEnquiryModal";
 
 import {
   organizationSchema,
@@ -27,6 +26,15 @@ import {
 
 import "./home.css";
 
+function makeSlug(value = "") {
+  return String(value)
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export default function Home() {
   const [services, setServices] =
     useState([]);
@@ -36,11 +44,6 @@ export default function Home() {
 
   const [pricing, setPricing] =
     useState([]);
-
-  const [
-    selectedService,
-    setSelectedService,
-  ] = useState(null);
 
   const [loading, setLoading] =
     useState(true);
@@ -102,9 +105,7 @@ export default function Home() {
             : pricingResponse.data
                 ?.items || [];
 
-        setServices(
-          servicesData.slice(0, 9)
-        );
+        setServices(servicesData);
 
         setProjects(
           projectsData.slice(0, 9)
@@ -140,15 +141,68 @@ export default function Home() {
     };
   }, []);
 
-  function openServiceForm(
-    service
-  ) {
-    setSelectedService(service);
-  }
+  const serviceCategories =
+    useMemo(() => {
+      const groups = new Map();
 
-  function closeServiceForm() {
-    setSelectedService(null);
-  }
+      services.forEach((service) => {
+        const category =
+          service.category?.trim() ||
+          "Other Services";
+
+        const slug =
+          service.categorySlug ||
+          makeSlug(category);
+
+        if (!groups.has(slug)) {
+          groups.set(slug, {
+            slug,
+            title: category,
+            description:
+              service.categoryDescription ||
+              service.shortDescription ||
+              "Professional digital solutions for your business.",
+            imageUrl: getImageUrl(service),
+            order:
+              Number(
+                service.categoryOrder
+              ) || 0,
+            representative:
+              service,
+          });
+        }
+
+        if (
+          service.showCategoryOnHome
+        ) {
+          const group =
+            groups.get(slug);
+
+          group.description =
+            service.categoryDescription ||
+            service.shortDescription ||
+            group.description;
+          group.imageUrl =
+            getImageUrl(service);
+          group.representative =
+            service;
+          group.order =
+            Number(
+              service.categoryOrder
+            ) || group.order;
+        }
+      });
+
+      return [...groups.values()]
+        .sort(
+          (a, b) =>
+            a.order - b.order ||
+            a.title.localeCompare(
+              b.title
+            )
+        )
+        .slice(0, 7);
+    }, [services]);
 
   return (
     <>
@@ -214,84 +268,54 @@ export default function Home() {
               <div className="content-loading">
                 Loading services...
               </div>
-            ) : services.length ===
+            ) : serviceCategories.length ===
               0 ? (
               <div className="empty-content">
                 No services are available
                 right now.
               </div>
             ) : (
-              <div className="card-grid">
-                {services.map(
-                  (service, index) => (
-                    <article
-                      className="content-card"
-                      key={
-                        service._id ||
-                        `${service.title}-${index}`
-                      }
+              <div className="home-service-category-grid">
+                {serviceCategories.map(
+                  (category) => (
+                    <Link
+                      className="home-service-category-card"
+                      key={category.slug}
+                      to={`/services?category=${encodeURIComponent(
+                        category.slug
+                      )}`}
                     >
-                      <button
-                        type="button"
-                        className="content-card-image service-image-button"
-                        onClick={() =>
-                          openServiceForm(
-                            service
-                          )
-                        }
-                        aria-label={`Get ${
-                          service.title ||
-                          "this service"
-                        }`}
-                      >
+                      <div className="home-service-category-image">
                         <img
-                          src={getImageUrl(
-                            service
-                          )}
+                          src={
+                            category.imageUrl
+                          }
                           alt={
-                            service.title ||
-                            "Tech Digital Designers service"
+                            category.title
                           }
                           loading="lazy"
                           onError={
                             handleImageError
                           }
                         />
+                      </div>
 
-                        {service.category && (
-                          <span className="card-category">
-                            {
-                              service.category
-                            }
-                          </span>
-                        )}
-                      </button>
-
-                      <div className="content-card-body">
+                      <div className="home-service-category-body">
                         <h3>
-                          {service.title ||
-                            "Digital Service"}
+                          {category.title}
                         </h3>
 
                         <p>
-                          {service.shortDescription ||
-                            service.description ||
-                            "Professional digital services for your business."}
+                          {
+                            category.description
+                          }
                         </p>
 
-                        <button
-                          type="button"
-                          className="card-link service-enquiry-button"
-                          onClick={() =>
-                            openServiceForm(
-                              service
-                            )
-                          }
-                        >
-                          Get this service
-                        </button>
+                        <span aria-hidden="true">
+                          →
+                        </span>
                       </div>
-                    </article>
+                    </Link>
                   )
                 )}
               </div>
@@ -599,14 +623,6 @@ export default function Home() {
         </section>
       </main>
 
-      {selectedService && (
-        <ServiceEnquiryModal
-          service={selectedService}
-          onClose={
-            closeServiceForm
-          }
-        />
-      )}
     </>
   );
 }

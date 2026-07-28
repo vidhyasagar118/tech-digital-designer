@@ -32,8 +32,13 @@ const emptyForms = {
   services: {
     title: "",
     category: "",
+    categorySlug: "",
+    categoryDescription: "",
+    categoryOrder: 0,
+    showCategoryOnHome: false,
     shortDescription: "",
     description: "",
+    order: 0,
     active: true,
   },
 
@@ -56,6 +61,10 @@ const labels = {
   order: "Display Order",
   active: "Active",
   category: "Category",
+  categorySlug: "Category Slug",
+  categoryDescription: "Category Description",
+  categoryOrder: "Category Display Order",
+  showCategoryOnHome: "Use As Home Category Card",
   shortDescription: "Short Description",
   description: "Full Description",
   liveUrl: "Live Project URL",
@@ -281,6 +290,20 @@ export default function AdminContent({ type }) {
       !form.title.trim()
     ) {
       return "Title fill karo.";
+    }
+
+    if (
+      type === "services" &&
+      !form.category.trim()
+    ) {
+      return "Service category fill karo.";
+    }
+
+    if (
+      type === "services" &&
+      !form.shortDescription.trim()
+    ) {
+      return "Short description fill karo.";
     }
 
     if (
@@ -578,6 +601,7 @@ export default function AdminContent({ type }) {
                   "shortDescription",
                   "subtitle",
                   "features",
+                  "categoryDescription",
                 ].includes(key);
 
                 const isRequired =
@@ -587,7 +611,13 @@ export default function AdminContent({ type }) {
                         "serviceName",
                         "price",
                       ].includes(key)
-                    : key === "title";
+                    : type === "services"
+                      ? [
+                          "title",
+                          "category",
+                          "shortDescription",
+                        ].includes(key)
+                      : key === "title";
 
                 return (
                   <label
@@ -637,6 +667,7 @@ export default function AdminContent({ type }) {
                           [
                             "price",
                             "order",
+                            "categoryOrder",
                           ].includes(
                             key
                           )
@@ -650,6 +681,7 @@ export default function AdminContent({ type }) {
                           [
                             "price",
                             "order",
+                            "categoryOrder",
                           ].includes(
                             key
                           )
