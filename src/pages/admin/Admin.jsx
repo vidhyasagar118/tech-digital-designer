@@ -1,18 +1,29 @@
-import React from "react";
-import "./Admin.css";
-import { useState } from "react";
+import React, {
+  useState,
+} from "react";
 
 import AdminContent from "./AdminContent";
 import AdminUsers from "./AdminUsers";
 import AdminPaymentQR from "./AdminPaymentQR";
 import AdminEnquiries from "./AdminEnquiries";
+
+import "./Admin.css";
+
 const tabs = [
   ["sliders", "Home Slider"],
   ["projects", "Projects"],
   ["services", "Services"],
   ["pricing", "Pricing"],
+  ["payment-qr", "Payment QR"],
   ["users", "Users"],
   ["enquiries", "Enquiries"],
+];
+
+const contentTabs = [
+  "sliders",
+  "projects",
+  "services",
+  "pricing",
 ];
 
 export default function Admin() {
@@ -34,41 +45,55 @@ export default function Admin() {
           </div>
         </div>
 
-        <div className="admin-tabs">
-          {tabs.map(([value, label]) => (
-            <button
-              key={value}
-              className={
-                activeTab === value
-                  ? "active"
-                  : ""
-              }
-              onClick={() =>
-                setActiveTab(value)
-              }
-            >
-              {label}
-            </button>
-          ))}
+        <div
+          className="admin-tabs"
+          role="tablist"
+          aria-label="Admin sections"
+        >
+          {tabs.map(
+            ([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                role="tab"
+                aria-selected={
+                  activeTab === value
+                }
+                className={
+                  activeTab === value
+                    ? "active"
+                    : ""
+                }
+                onClick={() =>
+                  setActiveTab(value)
+                }
+              >
+                {label}
+              </button>
+            )
+          )}
         </div>
 
-        {[
-          "sliders",
-          "projects",
-          "services",
-          "pricing",
-        ].includes(activeTab) && (
-          <AdminContent type={activeTab} />
+        {contentTabs.includes(
+          activeTab
+        ) && (
+          <AdminContent
+            key={activeTab}
+            type={activeTab}
+          />
+        )}
+
+        {activeTab ===
+          "payment-qr" && (
+          <AdminPaymentQR />
         )}
 
         {activeTab === "users" && (
           <AdminUsers />
         )}
 
-<AdminPaymentQR />
-
-        {activeTab === "enquiries" && (
-          
+        {activeTab ===
+          "enquiries" && (
           <AdminEnquiries />
         )}
       </div>
