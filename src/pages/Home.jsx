@@ -8,6 +8,15 @@ import {
   Link,
 } from "react-router-dom";
 
+import {
+  BadgeIndianRupee,
+  Clock3,
+  Cpu,
+  Headphones,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
+
 import API from "../api";
 
 import SEO from "../components/SEO";
@@ -34,6 +43,39 @@ function makeSlug(value = "") {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
+
+const whyChooseItems = [
+  {
+    icon: Clock3,
+    title: "Fast Delivery",
+    text: "On-time delivery with an agile and transparent working process.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Premium Quality",
+    text: "Reliable digital solutions created with attention to every detail.",
+  },
+  {
+    icon: Users,
+    title: "Expert Team",
+    text: "Skilled professionals with practical design and development expertise.",
+  },
+  {
+    icon: Cpu,
+    title: "Latest Technologies",
+    text: "Modern, scalable and future-ready technology solutions.",
+  },
+  {
+    icon: Headphones,
+    title: "Dedicated Support",
+    text: "Helpful support before, during and after project delivery.",
+  },
+  {
+    icon: BadgeIndianRupee,
+    title: "Affordable Pricing",
+    text: "Flexible packages designed around your goals and budget.",
+  },
+];
 
 export default function Home() {
   const [services, setServices] =
@@ -233,6 +275,70 @@ export default function Home() {
             </div>
           </div>
         )}
+        
+        {/* Why Choose Us */}
+        <section className="section why-choose-section">
+          <div className="container why-choose-layout">
+            <div className="why-choose-visual">
+              <div className="why-choose-glow" />
+
+              <img
+                src="/why-choose-us-rocket.jpeg"
+                alt="Digital business growth rocket illustration"
+                loading="lazy"
+                onError={handleImageError}
+              />
+            </div>
+
+            <div className="why-choose-content">
+              <div className="why-choose-heading">
+                <span className="eyebrow">
+                  Why Choose Us?
+                </span>
+
+                <h2>
+                  Your success is our priority
+                </h2>
+
+                <p>
+                  We combine strategy,
+                  creativity and technology to
+                  deliver solutions that create
+                  measurable business impact.
+                </p>
+              </div>
+
+              <div className="why-choose-grid">
+                {whyChooseItems.map(
+                  ({
+                    icon: Icon,
+                    title,
+                    text,
+                  }) => (
+                    <article
+                      className="why-choose-card"
+                      key={title}
+                    >
+                      <span className="why-choose-icon">
+                        <Icon
+                          size={24}
+                          strokeWidth={2}
+                          aria-hidden="true"
+                        />
+                      </span>
+
+                      <div>
+                        <h3>{title}</h3>
+                        <p>{text}</p>
+                      </div>
+                    </article>
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
 
         {/* Services */}
         <section className="section">
