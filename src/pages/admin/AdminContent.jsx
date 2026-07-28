@@ -188,7 +188,6 @@ export default function AdminContent({ type }) {
       "image/jpeg",
       "image/png",
       "image/webp",
-      "image/gif",
     ];
 
     if (
@@ -203,7 +202,7 @@ export default function AdminContent({ type }) {
       }
 
       setMessage(
-        "Sirf JPG, PNG, WEBP ya GIF image select karo."
+        "Sirf JPG, PNG ya WEBP image select karo."
       );
 
       setMessageType("error");
@@ -292,7 +291,11 @@ export default function AdminContent({ type }) {
       return "Valid price fill karo.";
     }
 
-    if (!editingId && !image) {
+    if (
+      type !== "pricing" &&
+      !editingId &&
+      !image
+    ) {
       return "Image select karna zaroori hai.";
     }
 
@@ -374,30 +377,44 @@ export default function AdminContent({ type }) {
   }
 
   function startEdit(item) {
-    const editableItem = {
-      ...item,
-    };
+    const nextForm =
+      getEmptyForm(type);
 
-    delete editableItem._id;
-    delete editableItem.__v;
-    delete editableItem.createdAt;
-    delete editableItem.updatedAt;
-    delete editableItem.imageUrl;
-    delete editableItem.imageKey;
+    Object.keys(nextForm).forEach(
+      (key) => {
+        if (
+          item[key] !== undefined &&
+          item[key] !== null
+        ) {
+          nextForm[key] = item[key];
+        }
+      }
+    );
 
     if (
-      Array.isArray(
-        editableItem.features
-      )
+      type === "pricing" &&
+      Array.isArray(item.features)
     ) {
-      editableItem.features =
-        editableItem.features.join("\n");
+      nextForm.features =
+        item.features.join("\n");
     }
 
-    setForm({
-      ...getEmptyForm(type),
-      ...editableItem,
-    });
+    if ("active" in nextForm) {
+      nextForm.active =
+        item.active !== false;
+    }
+
+    if ("featured" in nextForm) {
+      nextForm.featured =
+        item.featured === true;
+    }
+
+    if ("highlighted" in nextForm) {
+      nextForm.highlighted =
+        item.highlighted === true;
+    }
+
+    setForm(nextForm);
 
     setEditingId(item._id);
     setImage(null);
@@ -653,22 +670,28 @@ export default function AdminContent({ type }) {
             <label className="admin-field">
               <span>
                 Content Image
-                {!editingId && <b> *</b>}
+                {!editingId &&
+                  type !== "pricing" && (
+                    <b> *</b>
+                  )}
               </span>
 
               <div className="admin-file-box">
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  accept="image/jpeg,image/png,image/webp"
                   onChange={
                     handleImageChange
                   }
-                  required={!editingId}
+                  required={
+                    !editingId &&
+                    type !== "pricing"
+                  }
                 />
 
                 <small>
-                  JPG, PNG, WEBP ya GIF.
+                  JPG, PNG ya WEBP.
                   Maximum 5 MB.
                 </small>
               </div>
