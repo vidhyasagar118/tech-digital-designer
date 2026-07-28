@@ -41,7 +41,7 @@ export default function Footer() {
               </strong>
 
               <small>
-                Digital Growth Studio
+                Next Generation Digital Agency
               </small>
             </span>
           </Link>

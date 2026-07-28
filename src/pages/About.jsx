@@ -175,7 +175,7 @@ export default function About() {
         <PageHero
           eyebrow="About Tech Digital Designers"
           title="Creative ideas, useful technology and real business growth"
-          text="Tech Digital Designers is a digital growth studio helping businesses, professionals and startups build trust, attract customers and grow through websites, applications, marketing and creative design."
+          text="Tech Digital Designers is a Next Generation Digital Agency helping businesses, professionals and startups build trust, attract customers and grow through websites, applications, marketing and creative design."
         />
 
         {/* Introduction */}
