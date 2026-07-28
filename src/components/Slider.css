@@ -17,14 +17,23 @@
   min-height: 560px;
   color: #ffffff;
   background-color: #0f172a;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+
+  /* First value gradient ke liye,
+     second value image ke liye */
+  background-position:
+    center,
+    center;
+  background-repeat:
+    no-repeat,
+    no-repeat;
+  background-size:
+    100% 100%,
+    contain;
+
   isolation: isolate;
   transition:
     background-image 0.5s ease;
 }
-
 .slider-overlay {
   position: absolute;
   z-index: 0;
@@ -325,9 +334,7 @@
     align-items: center;
   }
 
-  .slider {
-    background-position: center;
-  }
+  
 
   .slider::before {
     position: absolute;

@@ -126,21 +126,46 @@
   content: "";
 }
 
-.about-logo-symbol {
+.about-visual-main::after {
+  position: absolute;
+  right: -75px;
+  bottom: -80px;
+  width: 310px;
+  height: 310px;
+  border-radius: 45px;
+  background:
+    url("/tech-digital-designers-logo.png")
+    center / contain no-repeat;
+  content: "";
+  opacity: 0.07;
+  pointer-events: none;
+  transform: rotate(-8deg);
+}
+
+.about-brand-logo {
   position: relative;
   z-index: 2;
-  display: grid;
-  width: 68px;
-  height: 68px;
-  margin-bottom: 24px;
-  border-radius: 20px;
-  color: #1d4ed8;
-  background: #ffffff;
-  font-size: 35px;
-  font-weight: 900;
-  place-items: center;
-  box-shadow: 0 16px 30px
-    rgba(15, 23, 42, 0.2);
+  display: flex;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 26px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid
+    rgba(147, 197, 253, 0.4);
+  border-radius: 26px;
+  background: #020211;
+  box-shadow: 0 20px 45px
+    rgba(2, 6, 23, 0.35);
+}
+
+.about-brand-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 
 .about-visual-main > span {
@@ -893,10 +918,11 @@
     bottom: 2px;
   }
 
-  .about-logo-symbol {
-    width: 57px;
-    height: 57px;
-    font-size: 29px;
+  .about-brand-logo {
+    width: 112px;
+    height: 112px;
+    margin-bottom: 18px;
+    border-radius: 20px;
   }
 
   .about-mission-card {

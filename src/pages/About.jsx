@@ -274,8 +274,11 @@ export default function About() {
 
             <div className="about-visual">
               <div className="about-visual-main">
-                <div className="about-logo-symbol">
-                  T
+                <div className="about-brand-logo">
+                  <img
+                    src="/tech-digital-designers-logo.png"
+                    alt="Tech Digital Designers"
+                  />
                 </div>
 
                 <span>

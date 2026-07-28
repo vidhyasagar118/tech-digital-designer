@@ -23,13 +23,9 @@ export default function Navbar() {
     useState(false);
 
   const auth = useAuth();
-
-  const user =
-    auth?.user || null;
-
+  const user = auth?.user || null;
   const isAdmin =
     auth?.isAdmin || false;
-
   const logout =
     auth?.logout || (() => {});
 
@@ -52,7 +48,10 @@ export default function Navbar() {
           aria-label="Tech Digital Designers home"
         >
           <span className="brand-mark">
-            T
+            <img
+              src="/tech-digital-designers-logo.png"
+              alt="Tech Digital Designers logo"
+            />
           </span>
 
           <span className="brand-content">

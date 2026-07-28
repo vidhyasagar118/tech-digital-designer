@@ -32,7 +32,10 @@ export default function Footer() {
             aria-label="Tech Digital Designers home"
           >
             <span className="footer-brand-mark">
-              T
+              <img
+                src="/tech-digital-designers-logo.png"
+                alt="Tech Digital Designers logo"
+              />
             </span>
 
             <span className="footer-brand-text">
@@ -54,9 +57,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-column">
-          <h4>
-            Pages
-          </h4>
+          <h4>Pages</h4>
 
           <Link to="/services">
             Services
@@ -76,9 +77,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-column">
-          <h4>
-            Legal
-          </h4>
+          <h4>Legal</h4>
 
           <Link to="/privacy-policy">
             Privacy Policy
@@ -94,9 +93,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-column footer-contact">
-          <h4>
-            Contact
-          </h4>
+          <h4>Contact</h4>
 
           <a href={`tel:${phone}`}>
             <Phone
@@ -104,9 +101,7 @@ export default function Footer() {
               aria-hidden="true"
             />
 
-            <span>
-              {phone}
-            </span>
+            <span>{phone}</span>
           </a>
 
           <a href={`mailto:${email}`}>
@@ -115,9 +110,7 @@ export default function Footer() {
               aria-hidden="true"
             />
 
-            <span>
-              {email}
-            </span>
+            <span>{email}</span>
           </a>
 
           <div className="footer-contact-item">
