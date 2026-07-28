@@ -44,6 +44,7 @@ const emptyForms = {
 
   pricing: {
     serviceName: "",
+    serviceCategorySlug: "",
     planName: "",
     price: "",
     billingText: "Starting price",
@@ -70,6 +71,7 @@ const labels = {
   liveUrl: "Live Project URL",
   featured: "Featured Project",
   serviceName: "Service Name",
+  serviceCategorySlug: "Service Category Slug",
   planName: "Plan Name",
   price: "Price",
   billingText: "Billing Text",

@@ -242,8 +242,7 @@ export default function Home() {
             a.title.localeCompare(
               b.title
             )
-        )
-        .slice(0, 7);
+        );
     }, [services]);
 
   return (
@@ -275,7 +274,7 @@ export default function Home() {
             </div>
           </div>
         )}
-        
+
         {/* Why Choose Us */}
         <section className="section why-choose-section">
           <div className="container why-choose-layout">
@@ -339,7 +338,7 @@ export default function Home() {
           </div>
         </section>
 
-
+      
         {/* Services */}
         <section className="section">
           <div className="container">
@@ -355,10 +354,10 @@ export default function Home() {
                 </h2>
 
                 <p>
-                  Website development, mobile
-                  apps, marketing, social media
-                  promotion, creative design and
-                  advertising services.
+                  Website development, app
+                  development, marketing, social
+                  media promotion, creative design
+                  and advertising services.
                 </p>
               </div>
 
@@ -695,6 +694,85 @@ export default function Home() {
                 )}
               </div>
             )}
+          </div>
+        </section>
+  {/* About Preview */}
+        <section className="section home-about-section">
+          <div className="container home-about-layout">
+            <div className="home-about-content">
+              <span className="eyebrow">
+                About Tech Digital Designers
+              </span>
+
+              <h2>
+                Creative ideas, useful
+                technology and measurable
+                digital growth
+              </h2>
+
+              <p>
+                Tech Digital Designers helps
+                businesses, professionals and
+                startups create a strong digital
+                presence through modern
+                websites, mobile applications,
+                marketing, branding and creative
+                design.
+              </p>
+
+              <p>
+                We focus on understanding your
+                goals and delivering practical,
+                reliable and affordable
+                solutions that support long-term
+                business growth.
+              </p>
+
+              <Link
+                className="btn home-about-button"
+                to="/about"
+              >
+                Learn More About Us
+              </Link>
+            </div>
+
+            <div className="home-about-highlights">
+              <article>
+                <strong>Complete</strong>
+                <span>Digital Solutions</span>
+                <p>
+                  Development, marketing and
+                  creative services in one place.
+                </p>
+              </article>
+
+              <article>
+                <strong>Custom</strong>
+                <span>Business Strategy</span>
+                <p>
+                  Solutions planned according to
+                  your goals and audience.
+                </p>
+              </article>
+
+              <article>
+                <strong>Modern</strong>
+                <span>Technology</span>
+                <p>
+                  Responsive, scalable and
+                  future-ready digital products.
+                </p>
+              </article>
+
+              <article>
+                <strong>Reliable</strong>
+                <span>Project Support</span>
+                <p>
+                  Clear communication and
+                  support throughout the project.
+                </p>
+              </article>
+            </div>
           </div>
         </section>
 

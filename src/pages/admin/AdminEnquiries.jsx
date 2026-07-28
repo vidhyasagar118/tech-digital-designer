@@ -201,6 +201,19 @@ export default function AdminEnquiries() {
       enquiry?.service
         ? `Service: ${enquiry.service}`
         : "",
+      enquiry?.serviceCategory
+        ? `Category: ${enquiry.serviceCategory}`
+        : "",
+      enquiry?.selectedPlan
+        ? `Selected Plan: ${enquiry.selectedPlan}`
+        : "",
+      enquiry?.selectedPrice !==
+        undefined &&
+      enquiry?.selectedPrice !== null
+        ? `Price: ₹${Number(
+            enquiry.selectedPrice
+          ).toLocaleString("en-IN")}`
+        : "",
       "Status: Approved",
       "",
       enquiry?.adminMessage ||
@@ -520,6 +533,36 @@ export default function AdminEnquiries() {
                     <strong>
                       {item.budget ||
                         "Not specified"}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <small>
+                      Selected Plan
+                    </small>
+
+                    <strong>
+                      {item.selectedPlan ||
+                        "Custom Quote"}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <small>
+                      Final Price
+                    </small>
+
+                    <strong>
+                      {item.selectedPrice !==
+                        undefined &&
+                      item.selectedPrice !==
+                        null
+                        ? `₹${Number(
+                            item.selectedPrice
+                          ).toLocaleString(
+                            "en-IN"
+                          )}`
+                        : "Custom quotation"}
                     </strong>
                   </div>
 
