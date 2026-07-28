@@ -1,5 +1,6 @@
 .admin-content-page {
   width: 100%;
+  min-width: 0;
 }
 
 .admin-page-header {
@@ -9,25 +10,26 @@
   gap: 25px;
   margin-bottom: 23px;
   padding: 24px 27px;
-  border: 1px solid var(--border);
+  border: 1px solid
+    var(--border, #e2e8f0);
   border-radius: 18px;
   background: #ffffff;
 }
 
 .admin-page-header h1 {
   margin: 5px 0;
-  color: var(--heading);
+  color: var(--heading, #0f172a);
   font-size: 29px;
   text-transform: capitalize;
 }
 
 .admin-page-header p {
   margin: 0;
-  color: var(--muted);
+  color: var(--muted, #64748b);
 }
 
 .admin-eyebrow {
-  color: var(--primary);
+  color: var(--primary, #2563eb);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 1px;
@@ -35,10 +37,17 @@
 }
 
 .admin-count {
+  flex-shrink: 0;
   padding: 8px 13px;
   border-radius: 99px;
-  color: var(--primary-dark);
-  background: var(--primary-soft);
+  color: var(
+    --primary-dark,
+    #1d4ed8
+  );
+  background: var(
+    --primary-soft,
+    #dbeafe
+  );
   font-weight: 750;
 }
 
@@ -47,6 +56,7 @@
   padding: 13px 15px;
   border-radius: 11px;
   font-weight: 700;
+  line-height: 1.5;
 }
 
 .admin-message.success {
@@ -64,45 +74,133 @@
   background: #dbeafe;
 }
 
+/* Desktop: पूरा form और separately scroll होने वाली list */
 .admin-layout {
   display: grid;
-  grid-template-columns: minmax(340px, 0.82fr) minmax(0, 1.35fr);
+  grid-template-columns:
+    minmax(380px, 0.9fr)
+    minmax(0, 1.35fr);
   align-items: start;
   gap: 25px;
+  height: auto;
+  overflow: visible;
 }
 
 .admin-form,
 .admin-list-section {
-  border: 1px solid var(--border);
+  min-width: 0;
+  border: 1px solid
+    var(--border, #e2e8f0);
   border-radius: 18px;
   background: #ffffff;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  box-shadow:
+    0 10px 30px
+    rgba(15, 23, 42, 0.05);
 }
 
+/*
+ * Form पूरा खुलेगा।
+ * Form में अलग scrollbar नहीं होगा।
+ */
 .admin-form {
-  position: sticky;
-  top: 105px;
+  position: static;
+  height: auto;
+  max-height: none;
   padding: 25px;
+  overflow: visible;
 }
 
-.admin-form-header,
-.admin-list-header {
+/*
+ * केवल existing content list
+ * अलग से scroll होगी।
+ */
+.admin-list-section {
+  position: sticky;
+  top: 100px;
+  max-height: calc(100vh - 125px);
+  padding: 25px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.admin-list-section::-webkit-scrollbar {
+  width: 9px;
+}
+
+.admin-list-section::-webkit-scrollbar-track {
+  margin: 12px 0;
+  border-radius: 20px;
+  background: #eef2f7;
+}
+
+.admin-list-section::-webkit-scrollbar-thumb {
+  border: 2px solid #eef2f7;
+  border-radius: 20px;
+  background: #94a3b8;
+}
+
+.admin-list-section::-webkit-scrollbar-thumb:hover {
+  background: var(
+    --primary,
+    #2563eb
+  );
+}
+
+.admin-list-section {
+  scrollbar-width: thin;
+  scrollbar-color:
+    #94a3b8
+    #eef2f7;
+}
+
+/* Form header normal रहेगा ताकि पूरा form एक साथ दिखे */
+.admin-form-header {
+  position: static;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 15px;
-  margin-bottom: 22px;
+  margin: 0 0 22px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+/* केवल right list का header scroll के दौरान visible रहेगा */
+.admin-list-header {
+  position: sticky;
+  z-index: 5;
+  top: -25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin: -25px -25px 22px;
+  padding: 25px 25px 16px;
+  border-bottom: 1px solid
+    rgba(226, 232, 240, 0.9);
+  background:
+    rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
 }
 
 .admin-form-header h2,
 .admin-list-header h2 {
   margin: 4px 0 0;
-  color: var(--heading);
+  color: var(--heading, #0f172a);
   font-size: 24px;
   text-transform: capitalize;
 }
 
+.admin-form-header small,
+.admin-list-header small {
+  color: var(--muted, #64748b);
+}
+
 .editing-badge {
+  flex-shrink: 0;
   padding: 6px 11px;
   border-radius: 99px;
   color: #92400e;
@@ -128,7 +226,7 @@
 }
 
 .admin-field b {
-  color: var(--danger);
+  color: var(--danger, #dc2626);
 }
 
 .admin-field input,
@@ -137,6 +235,12 @@
   border: 1px solid #cbd5e1;
   border-radius: 10px;
   outline: none;
+  color: #0f172a;
+  background: #ffffff;
+  font: inherit;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .admin-field input {
@@ -152,8 +256,18 @@
 
 .admin-field input:focus,
 .admin-field textarea:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: var(
+    --primary,
+    #2563eb
+  );
+  box-shadow:
+    0 0 0 3px
+    rgba(37, 99, 235, 0.1);
+}
+
+.admin-field input::placeholder,
+.admin-field textarea::placeholder {
+  color: #94a3b8;
 }
 
 .admin-checkbox {
@@ -161,16 +275,23 @@
   align-items: center;
   gap: 10px;
   padding: 12px 13px;
-  border: 1px solid var(--border);
+  border: 1px solid
+    var(--border, #e2e8f0);
   border-radius: 10px;
+  color: #334155;
   background: #f8fbff;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .admin-checkbox input {
+  flex-shrink: 0;
   width: 17px;
   height: 17px;
-  accent-color: var(--primary);
+  accent-color: var(
+    --primary,
+    #2563eb
+  );
 }
 
 .admin-file-box {
@@ -184,12 +305,15 @@
   min-height: auto;
   padding: 0;
   border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .admin-file-box small {
   display: block;
   margin-top: 7px;
-  color: var(--muted);
+  color: var(--muted, #64748b);
+  line-height: 1.5;
 }
 
 .admin-image-preview {
@@ -197,10 +321,19 @@
   gap: 8px;
 }
 
+.admin-image-preview > span {
+  color: #334155;
+  font-size: 13px;
+  font-weight: 750;
+}
+
 .admin-image-preview img {
+  display: block;
   width: 100%;
   height: 210px;
+  border: 1px solid #e2e8f0;
   border-radius: 12px;
+  background: #eaf2ff;
   object-fit: cover;
 }
 
@@ -208,15 +341,16 @@
   display: flex;
   gap: 10px;
   margin-top: 22px;
+  padding-bottom: 2px;
 }
 
 .admin-form-actions .btn {
   flex: 1;
 }
 
-.admin-list-section {
-  min-width: 0;
-  padding: 25px;
+.admin-form-actions button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .admin-list {
@@ -226,12 +360,28 @@
 
 .admin-item {
   display: grid;
-  grid-template-columns: 115px minmax(0, 1fr) auto;
+  grid-template-columns:
+    115px
+    minmax(0, 1fr)
+    auto;
   align-items: center;
   gap: 17px;
   padding: 14px;
   border: 1px solid #e2e8f0;
   border-radius: 14px;
+  background: #ffffff;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.admin-item:hover {
+  border-color: #bfdbfe;
+  box-shadow:
+    0 8px 24px
+    rgba(15, 23, 42, 0.06);
+  transform: translateY(-1px);
 }
 
 .admin-item-image {
@@ -243,6 +393,7 @@
 }
 
 .admin-item-image img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -253,7 +404,10 @@
 }
 
 .admin-item-content small {
-  color: var(--primary);
+  color: var(
+    --primary,
+    #2563eb
+  );
   font-weight: 750;
   text-transform: capitalize;
 }
@@ -261,7 +415,10 @@
 .admin-item-content h3 {
   overflow: hidden;
   margin: 4px 0;
-  color: var(--heading);
+  color: var(
+    --heading,
+    #0f172a
+  );
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -270,7 +427,10 @@
   display: -webkit-box;
   overflow: hidden;
   margin: 7px 0 0;
-  color: var(--muted);
+  color: var(
+    --muted,
+    #64748b
+  );
   font-size: 13px;
   line-height: 1.5;
   -webkit-box-orient: vertical;
@@ -318,16 +478,55 @@
   background: #ffffff;
   font-weight: 750;
   cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.admin-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .admin-edit-button {
   border: 1px solid #bfdbfe;
-  color: var(--primary);
+  color: var(
+    --primary,
+    #2563eb
+  );
+}
+
+.admin-edit-button:hover {
+  border-color: var(
+    --primary,
+    #2563eb
+  );
+  color: #ffffff;
+  background: var(
+    --primary,
+    #2563eb
+  );
 }
 
 .admin-delete-button {
   border: 1px solid #fecaca;
-  color: var(--danger);
+  color: var(
+    --danger,
+    #dc2626
+  );
+}
+
+.admin-delete-button:hover {
+  border-color: var(
+    --danger,
+    #dc2626
+  );
+  color: #ffffff;
+  background: var(
+    --danger,
+    #dc2626
+  );
 }
 
 .admin-loading,
@@ -335,17 +534,56 @@
   padding: 50px 20px;
   border: 1px dashed #bfdbfe;
   border-radius: 13px;
+  color: var(
+    --muted,
+    #64748b
+  );
   background: #f8fbff;
   text-align: center;
 }
 
+.admin-empty h3 {
+  margin: 0 0 8px;
+  color: var(
+    --heading,
+    #0f172a
+  );
+}
+
+.admin-empty p {
+  margin: 0;
+}
+
+/*
+ * Tablet पर cards single column होंगे।
+ * Normal page scroll इस्तेमाल होगा।
+ */
 @media (max-width: 1050px) {
   .admin-layout {
     grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
+  }
+
+  .admin-form,
+  .admin-list-section {
+    height: auto;
+    max-height: none;
+    overflow: visible;
   }
 
   .admin-form {
     position: static;
+  }
+
+  .admin-form-header,
+  .admin-list-header {
+    position: static;
+    margin: 0 0 22px;
+    padding: 0;
+    border-bottom: 0;
+    background: transparent;
+    backdrop-filter: none;
   }
 }
 
@@ -356,13 +594,19 @@
     flex-direction: column;
   }
 
+  .admin-page-header h1 {
+    font-size: 25px;
+  }
+
   .admin-form,
   .admin-list-section {
     padding: 19px;
   }
 
   .admin-item {
-    grid-template-columns: 90px minmax(0, 1fr);
+    grid-template-columns:
+      90px
+      minmax(0, 1fr);
   }
 
   .admin-item-image {
@@ -377,6 +621,15 @@
 }
 
 @media (max-width: 500px) {
+  .admin-page-header {
+    border-radius: 14px;
+  }
+
+  .admin-form,
+  .admin-list-section {
+    border-radius: 14px;
+  }
+
   .admin-form-actions {
     flex-direction: column;
   }
@@ -392,5 +645,9 @@
 
   .admin-actions {
     grid-column: auto;
+  }
+
+  .admin-actions button {
+    flex: 1;
   }
 }
