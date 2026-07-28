@@ -64,10 +64,9 @@ export default function AdminPaymentQR() {
       setError("");
 
       try {
-        const response =
-          await API.get(
-            "/payment-settings"
-          );
+const response = await API.get(
+  "/payment-settings/public"
+);
 
         const data =
           response.data?.setting ||
