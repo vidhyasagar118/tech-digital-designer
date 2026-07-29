@@ -1,16 +1,24 @@
-import React, { useEffect } from "react";
+import React, {
+  useEffect,
+} from "react";
+
 import {
   Route,
   Routes,
   useLocation,
 } from "react-router-dom";
-import { Analytics } from "@vercel/analytics/react";
+
+import {
+  Analytics,
+} from "@vercel/analytics/react";
+
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
-import WebsiteDevelopment from "./pages/WebsiteDevelopment";
+
 import Home from "./pages/Home";
 import Services from "./pages/Services";
+import WebsiteDevelopment from "./pages/WebsiteDevelopment";
 import Projects from "./pages/Projects";
 import Pricing from "./pages/Pricing";
 import About from "./pages/About";
@@ -21,6 +29,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
 import Disclaimer from "./pages/Disclaimer";
 import NotFound from "./pages/NotFound";
+
 import Admin from "./pages/admin/Admin";
 
 function ScrollTop() {
@@ -41,15 +50,24 @@ export default function App() {
   return (
     <>
       <ScrollTop />
+
       <Navbar />
 
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={<Home />}
+          />
 
           <Route
             path="/services"
             element={<Services />}
+          />
+
+          <Route
+            path="/services/website-development"
+            element={<WebsiteDevelopment />}
           />
 
           <Route
@@ -105,10 +123,6 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-  path="/services/website-development"
-  element={<WebsiteDevelopment />}
-/>
 
           <Route
             path="*"
@@ -118,8 +132,8 @@ export default function App() {
       </main>
 
       <Footer />
-            <Analytics />
 
+      <Analytics />
     </>
   );
 }

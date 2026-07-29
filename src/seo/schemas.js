@@ -1,147 +1,189 @@
-export const SITE_URL =
-  "https://tech-digital-designer.vercel.app";
+import React from "react";
 
-export const organizationSchema = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": `${SITE_URL}/#organization`,
-  name: "Tech Digital Designers",
-  alternateName: [
-    "Tech Digital Designer",
-    "Tech Digital Designers Digital Growth Studio",
-  ],
-  url: SITE_URL,
-  logo: `${SITE_URL}/logo.png`,
-  image: `${SITE_URL}/og-image.jpg`,
-  description:
-    "Tech Digital Designers is a digital growth studio offering website development, app development, SEO, digital marketing, social media promotion, poster design, branding and advertising services.",
-  areaServed: {
-    "@type": "Country",
-    name: "India",
-  },
-  knowsAbout: [
-    "Website Development",
-    "Web Designing",
-    "Mobile App Development",
-    "Search Engine Optimization",
-    "Digital Marketing",
-    "Social Media Marketing",
-    "Instagram Promotion",
-    "Facebook Promotion",
-    "WhatsApp Marketing",
-    "Google Ads",
-    "Social Media Management",
-    "Poster Design",
-    "Graphic Design",
-    "Brand Identity Design",
-    "Resume Design",
-    "Ecommerce Development",
-  ],
-};
+import {
+  Helmet,
+} from "react-helmet-async";
 
-export const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": `${SITE_URL}/#website`,
-  name: "Tech Digital Designers",
-  alternateName: "Tech Digital Designer",
-  url: SITE_URL,
-  publisher: {
-    "@id": `${SITE_URL}/#organization`,
-  },
-  inLanguage: ["en-IN", "hi-IN"],
-};
+const SITE_URL =
+  "https://www.techdigitaldesigner.in";
 
-export const homeServiceSchema = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": `${SITE_URL}/#business`,
-  name: "Tech Digital Designers",
-  alternateName: "Tech Digital Designer",
-  url: SITE_URL,
-  image: `${SITE_URL}/og-image.jpg`,
-  priceRange: "₹₹",
-  description:
-    "Professional website development, mobile app development, SEO, digital marketing, social media marketing, graphic design and business promotion services in India.",
-  areaServed: [
-    {
-      "@type": "Country",
-      name: "India",
-    },
-    {
-      "@type": "City",
-      name: "Chittorgarh",
-    },
-    {
-      "@type": "City",
-      name: "Motihari",
-    },
-  ],
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Digital Services",
-    itemListElement: [
-      {
-        "@type": "OfferCatalog",
-        name: "Website Development",
-      },
-      {
-        "@type": "OfferCatalog",
-        name: "Mobile App Development",
-      },
-      {
-        "@type": "OfferCatalog",
-        name: "Digital Marketing",
-      },
-      {
-        "@type": "OfferCatalog",
-        name: "SEO Services",
-      },
-      {
-        "@type": "OfferCatalog",
-        name: "Social Media Marketing",
-      },
-      {
-        "@type": "OfferCatalog",
-        name: "Graphic and Poster Design",
-      },
-    ],
-  },
-};
+const DEFAULT_IMAGE =
+  `${SITE_URL}/og-image.jpg`;
 
-export function createServiceSchema({
-  name,
-  description,
-  path,
-}) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name,
-    description,
-    url: `${SITE_URL}${path}`,
-    provider: {
-      "@id": `${SITE_URL}/#organization`,
-    },
-    areaServed: {
-      "@type": "Country",
-      name: "India",
-    },
-    serviceType: name,
-  };
+function normalizePath(path) {
+  if (!path || path === "/") {
+    return "/";
+  }
+
+  return path.startsWith("/")
+    ? path
+    : `/${path}`;
 }
 
-export function createBreadcrumbSchema(items) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: items.map(
-      (item, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        name: item.name,
-        item: `${SITE_URL}${item.path}`,
-      })
-    ),
-  };
+function createCanonicalUrl(path) {
+  const normalizedPath =
+    normalizePath(path);
+
+  if (normalizedPath === "/") {
+    return `${SITE_URL}/`;
+  }
+
+  return `${SITE_URL}${normalizedPath}`;
+}
+
+export default function SEO({
+  title =
+    "Tech Digital Designers - Website, App & Digital Marketing Company",
+
+  description =
+    "Tech Digital Designers provides website development, mobile app development, SEO, digital marketing, social media promotion, poster design, graphic design and business branding services across India.",
+
+  keywords = "",
+  path = "/",
+  image = DEFAULT_IMAGE,
+  type = "website",
+  noIndex = false,
+  schema = null,
+}) {
+  const canonicalUrl =
+    createCanonicalUrl(path);
+
+  const completeTitle =
+    title.includes(
+      "Tech Digital Designers"
+    )
+      ? title
+      : `${title} | Tech Digital Designers`;
+
+  const robotsContent =
+    noIndex
+      ? "noindex, nofollow"
+      : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+
+  const schemaItems =
+    Array.isArray(schema)
+      ? schema
+      : schema
+        ? [schema]
+        : [];
+
+  return (
+    <Helmet>
+      <title>
+        {completeTitle}
+      </title>
+
+      <meta
+        name="description"
+        content={description}
+      />
+
+      {keywords && (
+        <meta
+          name="keywords"
+          content={keywords}
+        />
+      )}
+
+      <meta
+        name="robots"
+        content={robotsContent}
+      />
+
+      <meta
+        name="googlebot"
+        content={robotsContent}
+      />
+
+      {!noIndex && (
+        <link
+          rel="canonical"
+          href={canonicalUrl}
+        />
+      )}
+
+      <meta
+        property="og:type"
+        content={type}
+      />
+
+      <meta
+        property="og:site_name"
+        content="Tech Digital Designers"
+      />
+
+      <meta
+        property="og:title"
+        content={completeTitle}
+      />
+
+      <meta
+        property="og:description"
+        content={description}
+      />
+
+      <meta
+        property="og:url"
+        content={canonicalUrl}
+      />
+
+      <meta
+        property="og:image"
+        content={image}
+      />
+
+      <meta
+        property="og:locale"
+        content="en_IN"
+      />
+
+      <meta
+        name="twitter:card"
+        content="summary_large_image"
+      />
+
+      <meta
+        name="twitter:title"
+        content={completeTitle}
+      />
+
+      <meta
+        name="twitter:description"
+        content={description}
+      />
+
+      <meta
+        name="twitter:image"
+        content={image}
+      />
+
+      <meta
+        name="author"
+        content="Tech Digital Designers"
+      />
+
+      <meta
+        name="publisher"
+        content="Tech Digital Designers"
+      />
+
+      <meta
+        name="theme-color"
+        content="#e11d2e"
+      />
+
+      {schemaItems.map(
+        (schemaItem, index) => (
+          <script
+            key={index}
+            type="application/ld+json"
+          >
+            {JSON.stringify(
+              schemaItem
+            )}
+          </script>
+        )
+      )}
+    </Helmet>
+  );
 }

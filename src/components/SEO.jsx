@@ -5,10 +5,31 @@ import {
 } from "react-helmet-async";
 
 const SITE_URL =
-  "https://tech-digital-designer.vercel.app";
+  "https://www.techdigitaldesigner.in";
 
 const DEFAULT_IMAGE =
   `${SITE_URL}/og-image.jpg`;
+
+function normalizePath(path) {
+  if (!path || path === "/") {
+    return "/";
+  }
+
+  return path.startsWith("/")
+    ? path
+    : `/${path}`;
+}
+
+function createCanonicalUrl(path) {
+  const normalizedPath =
+    normalizePath(path);
+
+  if (normalizedPath === "/") {
+    return `${SITE_URL}/`;
+  }
+
+  return `${SITE_URL}${normalizedPath}`;
+}
 
 export default function SEO({
   title =
@@ -25,7 +46,7 @@ export default function SEO({
   schema = null,
 }) {
   const canonicalUrl =
-    `${SITE_URL}${path}`;
+    createCanonicalUrl(path);
 
   const completeTitle =
     title.includes(
@@ -38,6 +59,13 @@ export default function SEO({
     noIndex
       ? "noindex, nofollow"
       : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+
+  const schemaItems =
+    Array.isArray(schema)
+      ? schema
+      : schema
+        ? [schema]
+        : [];
 
   return (
     <Helmet>
@@ -67,10 +95,12 @@ export default function SEO({
         content={robotsContent}
       />
 
-      <link
-        rel="canonical"
-        href={canonicalUrl}
-      />
+      {!noIndex && (
+        <link
+          rel="canonical"
+          href={canonicalUrl}
+        />
+      )}
 
       <meta
         property="og:type"
@@ -142,12 +172,17 @@ export default function SEO({
         content="#e11d2e"
       />
 
-      {schema && (
-        <script
-          type="application/ld+json"
-        >
-          {JSON.stringify(schema)}
-        </script>
+      {schemaItems.map(
+        (schemaItem, index) => (
+          <script
+            key={index}
+            type="application/ld+json"
+          >
+            {JSON.stringify(
+              schemaItem
+            )}
+          </script>
+        )
       )}
     </Helmet>
   );
