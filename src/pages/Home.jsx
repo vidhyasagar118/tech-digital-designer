@@ -402,6 +402,9 @@ export default function Home() {
           </div>
         )}
 
+<h1>
+  Tech Digital Designers – Website, App, SEO and Digital Marketing Company
+</h1>
         {/* Why Choose Us */}
         <section className="section why-choose-section">
           <div className="container why-choose-layout">
