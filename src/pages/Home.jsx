@@ -10,11 +10,19 @@ import {
 
 import {
   BadgeIndianRupee,
+  BarChart3,
   Clock3,
   Cpu,
+  FileText,
   Headphones,
+  Monitor,
+  Palette,
+  Search,
   ShieldCheck,
+  ShoppingCart,
+  Smartphone,
   Users,
+  Wrench,
 } from "lucide-react";
 
 import API from "../api";
@@ -33,7 +41,7 @@ import {
   handleImageError,
 } from "../utils/image";
 
-import "./home.css";
+import "./Home.css";
 
 function makeSlug(value = "") {
   return String(value)
@@ -42,6 +50,126 @@ function makeSlug(value = "") {
     .replace(/&/g, "and")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+function getServiceIcon(value = "") {
+  const normalizedValue =
+    String(value).toLowerCase();
+
+  if (
+    normalizedValue.includes("e-commerce") ||
+    normalizedValue.includes("ecommerce") ||
+    normalizedValue.includes("store") ||
+    normalizedValue.includes("shop")
+  ) {
+    return ShoppingCart;
+  }
+
+  if (
+    normalizedValue.includes("mobile") ||
+    normalizedValue.includes("app")
+  ) {
+    return Smartphone;
+  }
+
+  if (
+    normalizedValue.includes("marketing") ||
+    normalizedValue.includes("ads") ||
+    normalizedValue.includes("promotion")
+  ) {
+    return BarChart3;
+  }
+
+  if (
+    normalizedValue.includes("graphic") ||
+    normalizedValue.includes("brand") ||
+    normalizedValue.includes("design")
+  ) {
+    return Palette;
+  }
+
+  if (
+    normalizedValue.includes("maintenance") ||
+    normalizedValue.includes("support")
+  ) {
+    return Wrench;
+  }
+
+  if (
+    normalizedValue.includes("resume") ||
+    normalizedValue.includes("document")
+  ) {
+    return FileText;
+  }
+
+  if (
+    normalizedValue.includes("seo") ||
+    normalizedValue.includes("search")
+  ) {
+    return Search;
+  }
+
+  return Monitor;
+}
+
+function getServiceIconTheme(value = "") {
+  const normalizedValue =
+    String(value).toLowerCase();
+
+  if (
+    normalizedValue.includes("e-commerce") ||
+    normalizedValue.includes("ecommerce") ||
+    normalizedValue.includes("store") ||
+    normalizedValue.includes("shop")
+  ) {
+    return "orange";
+  }
+
+  if (
+    normalizedValue.includes("mobile") ||
+    normalizedValue.includes("app")
+  ) {
+    return "violet";
+  }
+
+  if (
+    normalizedValue.includes("marketing") ||
+    normalizedValue.includes("ads") ||
+    normalizedValue.includes("promotion")
+  ) {
+    return "pink";
+  }
+
+  if (
+    normalizedValue.includes("graphic") ||
+    normalizedValue.includes("brand") ||
+    normalizedValue.includes("design")
+  ) {
+    return "purple";
+  }
+
+  if (
+    normalizedValue.includes("maintenance") ||
+    normalizedValue.includes("support")
+  ) {
+    return "green";
+  }
+
+  if (
+    normalizedValue.includes("resume") ||
+    normalizedValue.includes("document")
+  ) {
+    return "amber";
+  }
+
+  if (
+    normalizedValue.includes("seo") ||
+    normalizedValue.includes("search")
+  ) {
+    return "teal";
+  }
+
+  return "blue";
 }
 
 const whyChooseItems = [
@@ -337,36 +465,18 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-      
         {/* Services */}
-        <section className="section">
+        <section className="section home-services-showcase">
           <div className="container">
-            <div className="section-heading">
-              <div>
-                <span className="eyebrow">
-                  Our Services
-                </span>
+            <div className="home-services-heading">
+              <span className="eyebrow">
+                Our Services
+              </span>
 
-                <h2>
-                  Complete digital solutions
-                  for every business requirement
-                </h2>
-
-                <p>
-                  Website development, app
-                  development, marketing, social
-                  media promotion, creative design
-                  and advertising services.
-                </p>
-              </div>
-
-              <Link
-                className="section-link"
-                to="/services"
-              >
-                View all services
-              </Link>
+              <h2>
+                Complete digital solutions to
+                grow your business online.
+              </h2>
             </div>
 
             {loading ? (
@@ -380,32 +490,38 @@ export default function Home() {
                 right now.
               </div>
             ) : (
-              <div className="home-service-category-grid">
-                {serviceCategories.map(
-                  (category) => (
-                    <Link
-                      className="home-service-category-card"
-                      key={category.slug}
-                      to={`/services?category=${encodeURIComponent(
-                        category.slug
-                      )}`}
-                    >
-                      <div className="home-service-category-image">
-                        <img
-                          src={
-                            category.imageUrl
-                          }
-                          alt={
-                            category.title
-                          }
-                          loading="lazy"
-                          onError={
-                            handleImageError
-                          }
-                        />
-                      </div>
+              <div className="home-services-grid">
+                {serviceCategories
+                  .slice(0, 8)
+                  .map((category) => {
+                    const ServiceIcon =
+                      getServiceIcon(
+                        `${category.title} ${category.description}`
+                      );
 
-                      <div className="home-service-category-body">
+                    const iconTheme =
+                      getServiceIconTheme(
+                        `${category.title} ${category.description}`
+                      );
+
+                    return (
+                      <Link
+                        className="home-service-box"
+                        key={category.slug}
+                        to={`/services?category=${encodeURIComponent(
+                          category.slug
+                        )}`}
+                      >
+                        <span
+                          className={`home-service-icon ${iconTheme}`}
+                        >
+                          <ServiceIcon
+                            size={27}
+                            strokeWidth={2}
+                            aria-hidden="true"
+                          />
+                        </span>
+
                         <h3>
                           {category.title}
                         </h3>
@@ -416,17 +532,30 @@ export default function Home() {
                           }
                         </p>
 
-                        <span aria-hidden="true">
-                          →
+                        <span className="home-service-learn">
+                          Learn more
+                          <span aria-hidden="true">
+                            →
+                          </span>
                         </span>
-                      </div>
-                    </Link>
-                  )
-                )}
+                      </Link>
+                    );
+                  })}
               </div>
             )}
+
+            <div className="home-services-footer">
+              <Link
+                className="section-link"
+                to="/services"
+              >
+                View all services
+              </Link>
+            </div>
           </div>
         </section>
+
+
 
         {/* Projects */}
         <section className="section section-muted">

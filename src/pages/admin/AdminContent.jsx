@@ -1,7 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import React from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import API from "../../api";
+
 import {
   getImageUrl,
   handleImageError,
@@ -61,17 +65,25 @@ const labels = {
   buttonLink: "Button Link",
   order: "Display Order",
   active: "Active",
+
   category: "Category",
   categorySlug: "Category Slug",
-  categoryDescription: "Category Description",
-  categoryOrder: "Category Display Order",
-  showCategoryOnHome: "Use As Home Category Card",
-  shortDescription: "Short Description",
+  categoryDescription:
+    "Category Description",
+  categoryOrder:
+    "Category Display Order",
+  showCategoryOnHome:
+    "Use As Home Category Card",
+
+  shortDescription:
+    "Short Description",
   description: "Full Description",
   liveUrl: "Live Project URL",
   featured: "Featured Project",
+
   serviceName: "Service Name",
-  serviceCategorySlug: "Service Category Slug",
+  serviceCategorySlug:
+    "Service Category Slug",
   planName: "Plan Name",
   price: "Price",
   billingText: "Billing Text",
@@ -86,23 +98,48 @@ function getEmptyForm(type) {
 }
 
 function formatTypeName(type) {
-  return type.charAt(0).toUpperCase() + type.slice(1);
+  if (!type) {
+    return "";
+  }
+
+  return (
+    type.charAt(0).toUpperCase() +
+    type.slice(1)
+  );
 }
 
-export default function AdminContent({ type }) {
-  const [items, setItems] = useState([]);
+function revokeBlobUrl(url) {
+  if (
+    typeof url === "string" &&
+    url.startsWith("blob:")
+  ) {
+    URL.revokeObjectURL(url);
+  }
+}
 
-  const [form, setForm] = useState(() =>
-    getEmptyForm(type)
-  );
+export default function AdminContent({
+  type,
+}) {
+  const [items, setItems] =
+    useState([]);
 
-  const [image, setImage] = useState(null);
+  const [form, setForm] =
+    useState(() =>
+      getEmptyForm(type)
+    );
 
-  const [imagePreview, setImagePreview] =
-    useState("");
-
-  const [editingId, setEditingId] =
+  const [image, setImage] =
     useState(null);
+
+  const [
+    imagePreview,
+    setImagePreview,
+  ] = useState("");
+
+  const [
+    editingId,
+    setEditingId,
+  ] = useState(null);
 
   const [loading, setLoading] =
     useState(true);
@@ -110,30 +147,36 @@ export default function AdminContent({ type }) {
   const [saving, setSaving] =
     useState(false);
 
-  const [deletingId, setDeletingId] =
-    useState(null);
+  const [
+    deletingId,
+    setDeletingId,
+  ] = useState(null);
 
   const [message, setMessage] =
     useState("");
 
-  const [messageType, setMessageType] =
-    useState("");
+  const [
+    messageType,
+    setMessageType,
+  ] = useState("");
 
-  const fileInputRef = useRef(null);
+  const fileInputRef =
+    useRef(null);
 
   async function loadItems() {
     try {
       setLoading(true);
 
-      const response = await API.get(
-        `/content/${type}?admin=true`
-      );
+      const response =
+        await API.get(
+          `/content/${type}?admin=true`
+        );
 
-      const responseItems = Array.isArray(
-        response.data
-      )
-        ? response.data
-        : response.data?.items || [];
+      const responseItems =
+        Array.isArray(response.data)
+          ? response.data
+          : response.data?.items ||
+            [];
 
       setItems(responseItems);
     } catch (error) {
@@ -143,8 +186,11 @@ export default function AdminContent({ type }) {
       );
 
       setMessage(
-        error.response?.data?.message ||
-          `${formatTypeName(type)} load nahi ho saka.`
+        error.response?.data
+          ?.message ||
+          `${formatTypeName(
+            type
+          )} load nahi ho saka.`
       );
 
       setMessageType("error");
@@ -153,19 +199,37 @@ export default function AdminContent({ type }) {
     }
   }
 
+  function resetForm(
+    clearMessage = true
+  ) {
+    revokeBlobUrl(imagePreview);
+
+    setForm(getEmptyForm(type));
+    setImage(null);
+    setImagePreview("");
+    setEditingId(null);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value =
+        "";
+    }
+
+    if (clearMessage) {
+      setMessage("");
+      setMessageType("");
+    }
+  }
+
   useEffect(() => {
     resetForm(false);
     loadItems();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type]);
 
   useEffect(() => {
     return () => {
-      if (
-        imagePreview &&
-        imagePreview.startsWith("blob:")
-      ) {
-        URL.revokeObjectURL(imagePreview);
-      }
+      revokeBlobUrl(imagePreview);
     };
   }, [imagePreview]);
 
@@ -187,7 +251,29 @@ export default function AdminContent({ type }) {
     }));
   }
 
-  function handleImageChange(event) {
+  function clearSelectedImage() {
+    revokeBlobUrl(imagePreview);
+
+    setImage(null);
+    setImagePreview("");
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value =
+        "";
+    }
+
+    setMessage(
+      editingId
+        ? "Selected image remove ho gayi. Update karne par purani image use hogi."
+        : "Selected image remove ho gayi."
+    );
+
+    setMessageType("info");
+  }
+
+  function handleImageChange(
+    event
+  ) {
     const selectedFile =
       event.target.files?.[0];
 
@@ -206,111 +292,111 @@ export default function AdminContent({ type }) {
         selectedFile.type
       )
     ) {
-      setImage(null);
-
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-
       setMessage(
         "Sirf JPG, PNG ya WEBP image select karo."
       );
 
       setMessageType("error");
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value =
+          "";
+      }
+
       return;
     }
 
+    const maximumImageSize =
+      5 * 1024 * 1024;
+
     if (
       selectedFile.size >
-      5 * 1024 * 1024
+      maximumImageSize
     ) {
-      setImage(null);
-
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-
       setMessage(
         "Image size 5 MB se kam honi chahiye."
       );
 
       setMessageType("error");
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value =
+          "";
+      }
+
       return;
     }
 
-    if (
-      imagePreview &&
-      imagePreview.startsWith("blob:")
-    ) {
-      URL.revokeObjectURL(imagePreview);
-    }
+    revokeBlobUrl(imagePreview);
 
     const previewUrl =
-      URL.createObjectURL(selectedFile);
+      URL.createObjectURL(
+        selectedFile
+      );
 
     setImage(selectedFile);
     setImagePreview(previewUrl);
-    setMessage("");
-    setMessageType("");
-  }
 
-  function resetForm(
-    clearMessage = true
-  ) {
-    setForm(getEmptyForm(type));
-    setEditingId(null);
-    setImage(null);
-    setImagePreview("");
+    setMessage(
+      "Image successfully select ho gayi."
+    );
 
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-
-    if (clearMessage) {
-      setMessage("");
-      setMessageType("");
-    }
+    setMessageType("success");
   }
 
   function validateForm() {
     if (
       type === "pricing" &&
-      !form.planName.trim()
+      !String(
+        form.planName || ""
+      ).trim()
     ) {
       return "Plan name fill karo.";
     }
 
     if (
       type === "pricing" &&
-      !form.serviceName.trim()
+      !String(
+        form.serviceName || ""
+      ).trim()
     ) {
       return "Service name fill karo.";
     }
 
     if (
       type !== "pricing" &&
-      !form.title.trim()
+      !String(
+        form.title || ""
+      ).trim()
     ) {
       return "Title fill karo.";
     }
 
     if (
       type === "services" &&
-      !form.category.trim()
+      !String(
+        form.category || ""
+      ).trim()
     ) {
       return "Service category fill karo.";
     }
 
     if (
       type === "services" &&
-      !form.shortDescription.trim()
+      !String(
+        form.shortDescription ||
+          ""
+      ).trim()
     ) {
       return "Short description fill karo.";
     }
 
     if (
       type === "pricing" &&
-      (!form.price ||
+      (form.price === "" ||
+        Number.isNaN(
+          Number(form.price)
+        ) ||
         Number(form.price) < 0)
     ) {
       return "Valid price fill karo.";
@@ -327,19 +413,26 @@ export default function AdminContent({ type }) {
     return "";
   }
 
-  async function handleSubmit(event) {
+  async function handleSubmit(
+    event
+  ) {
     event.preventDefault();
 
     const validationMessage =
       validateForm();
 
     if (validationMessage) {
-      setMessage(validationMessage);
+      setMessage(
+        validationMessage
+      );
+
       setMessageType("error");
+
       return;
     }
 
-    const formData = new FormData();
+    const formData =
+      new FormData();
 
     Object.entries(form).forEach(
       ([key, value]) => {
@@ -351,13 +444,18 @@ export default function AdminContent({ type }) {
     );
 
     if (image) {
-      formData.append("image", image);
+      formData.append(
+        "image",
+        image
+      );
     }
 
-    const wasEditing = Boolean(editingId);
+    const wasEditing =
+      Boolean(editingId);
 
     try {
       setSaving(true);
+
       setMessage("");
       setMessageType("");
 
@@ -383,7 +481,9 @@ export default function AdminContent({ type }) {
           : "Item successfully add ho gaya."
       );
 
-      setMessageType("success");
+      setMessageType(
+        "success"
+      );
     } catch (error) {
       console.error(
         `${type} save error:`,
@@ -391,7 +491,8 @@ export default function AdminContent({ type }) {
       );
 
       setMessage(
-        error.response?.data?.message ||
+        error.response?.data
+          ?.message ||
           "Content save nahi ho saka."
       );
 
@@ -405,50 +506,67 @@ export default function AdminContent({ type }) {
     const nextForm =
       getEmptyForm(type);
 
-    Object.keys(nextForm).forEach(
-      (key) => {
-        if (
-          item[key] !== undefined &&
-          item[key] !== null
-        ) {
-          nextForm[key] = item[key];
-        }
+    Object.keys(
+      nextForm
+    ).forEach((key) => {
+      if (
+        item[key] !== undefined &&
+        item[key] !== null
+      ) {
+        nextForm[key] =
+          item[key];
       }
-    );
+    });
 
     if (
       type === "pricing" &&
-      Array.isArray(item.features)
+      Array.isArray(
+        item.features
+      )
     ) {
       nextForm.features =
         item.features.join("\n");
     }
 
-    if ("active" in nextForm) {
+    if (
+      "active" in nextForm
+    ) {
       nextForm.active =
         item.active !== false;
     }
 
-    if ("featured" in nextForm) {
+    if (
+      "featured" in nextForm
+    ) {
       nextForm.featured =
         item.featured === true;
     }
 
-    if ("highlighted" in nextForm) {
+    if (
+      "highlighted" in
+      nextForm
+    ) {
       nextForm.highlighted =
         item.highlighted === true;
     }
 
-    setForm(nextForm);
+    revokeBlobUrl(imagePreview);
 
+    setForm(nextForm);
     setEditingId(item._id);
     setImage(null);
-    setImagePreview(
-      getImageUrl(item)
-    );
+
+    if (type !== "pricing") {
+      setImagePreview(
+        getImageUrl(item)
+      );
+    } else {
+      setImagePreview("");
+    }
 
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value =
+        "";
     }
 
     setMessage(
@@ -480,7 +598,9 @@ export default function AdminContent({ type }) {
         `/content/${type}/${id}`
       );
 
-      if (editingId === id) {
+      if (
+        editingId === id
+      ) {
         resetForm(false);
       }
 
@@ -490,7 +610,9 @@ export default function AdminContent({ type }) {
         "Item successfully delete ho gaya."
       );
 
-      setMessageType("success");
+      setMessageType(
+        "success"
+      );
     } catch (error) {
       console.error(
         `${type} delete error:`,
@@ -498,7 +620,8 @@ export default function AdminContent({ type }) {
       );
 
       setMessage(
-        error.response?.data?.message ||
+        error.response?.data
+          ?.message ||
           "Item delete nahi ho saka."
       );
 
@@ -517,13 +640,14 @@ export default function AdminContent({ type }) {
           </span>
 
           <h1>
-            Manage {formatTypeName(type)}
+            Manage{" "}
+            {formatTypeName(type)}
           </h1>
 
           <p>
-            Yahan se content aur images
-            add, update aur delete kar
-            sakte ho.
+            Yahan se content aur
+            images add, update aur
+            delete kar sakte ho.
           </p>
         </div>
 
@@ -570,7 +694,9 @@ export default function AdminContent({ type }) {
           </div>
 
           <div className="admin-form-fields">
-            {Object.entries(form).map(
+            {Object.entries(
+              form
+            ).map(
               ([key, value]) => {
                 if (
                   typeof value ===
@@ -598,13 +724,14 @@ export default function AdminContent({ type }) {
                   );
                 }
 
-                const longField = [
-                  "description",
-                  "shortDescription",
-                  "subtitle",
-                  "features",
-                  "categoryDescription",
-                ].includes(key);
+                const longField =
+                  [
+                    "description",
+                    "shortDescription",
+                    "subtitle",
+                    "features",
+                    "categoryDescription",
+                  ].includes(key);
 
                 const isRequired =
                   type === "pricing"
@@ -613,13 +740,22 @@ export default function AdminContent({ type }) {
                         "serviceName",
                         "price",
                       ].includes(key)
-                    : type === "services"
+                    : type ===
+                        "services"
                       ? [
                           "title",
                           "category",
                           "shortDescription",
                         ].includes(key)
-                      : key === "title";
+                      : key ===
+                        "title";
+
+                const isNumberField =
+                  [
+                    "price",
+                    "order",
+                    "categoryOrder",
+                  ].includes(key);
 
                 return (
                   <label
@@ -627,7 +763,8 @@ export default function AdminContent({ type }) {
                     key={key}
                   >
                     <span>
-                      {labels[key] || key}
+                      {labels[key] ||
+                        key}
 
                       {isRequired && (
                         <b> *</b>
@@ -654,7 +791,8 @@ export default function AdminContent({ type }) {
                             : `${
                                 labels[
                                   key
-                                ] || key
+                                ] ||
+                                key
                               } enter karo`
                         }
                       />
@@ -666,13 +804,7 @@ export default function AdminContent({ type }) {
                           handleChange
                         }
                         type={
-                          [
-                            "price",
-                            "order",
-                            "categoryOrder",
-                          ].includes(
-                            key
-                          )
+                          isNumberField
                             ? "number"
                             : key ===
                                 "liveUrl"
@@ -680,13 +812,7 @@ export default function AdminContent({ type }) {
                               : "text"
                         }
                         min={
-                          [
-                            "price",
-                            "order",
-                            "categoryOrder",
-                          ].includes(
-                            key
-                          )
+                          isNumberField
                             ? "0"
                             : undefined
                         }
@@ -701,51 +827,72 @@ export default function AdminContent({ type }) {
               }
             )}
 
-            <label className="admin-field">
-              <span>
-                Content Image
-                {!editingId &&
-                  type !== "pricing" && (
+            {type !==
+              "pricing" && (
+              <label className="admin-field">
+                <span>
+                  Content Image
+
+                  {!editingId && (
                     <b> *</b>
                   )}
-              </span>
-
-              <div className="admin-file-box">
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  onChange={
-                    handleImageChange
-                  }
-                  required={
-                    !editingId &&
-                    type !== "pricing"
-                  }
-                />
-
-                <small>
-                  JPG, PNG ya WEBP.
-                  Maximum 5 MB.
-                </small>
-              </div>
-            </label>
-
-            {imagePreview && (
-              <div className="admin-image-preview">
-                <span>
-                  Image Preview
                 </span>
 
-                <img
-                  src={imagePreview}
-                  alt="Selected preview"
-                  onError={
-                    handleImageError
-                  }
-                />
-              </div>
+                <div className="admin-file-box">
+                  <input
+                    ref={
+                      fileInputRef
+                    }
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={
+                      handleImageChange
+                    }
+                  />
+
+                  <small>
+                    JPG, PNG ya WEBP.
+                    Maximum 5 MB.
+                    Image directly
+                    upload hogi.
+                  </small>
+                </div>
+              </label>
             )}
+
+            {imagePreview &&
+              type !==
+                "pricing" && (
+                <div className="admin-image-preview">
+                  <div className="admin-image-preview-header">
+                    <span>
+                      Image Preview
+                    </span>
+
+                    {image && (
+                      <button
+                        type="button"
+                        className="admin-remove-image-button"
+                        onClick={
+                          clearSelectedImage
+                        }
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+
+                  <img
+                    src={
+                      imagePreview
+                    }
+                    alt="Selected preview"
+                    onError={
+                      handleImageError
+                    }
+                  />
+                </div>
+              )}
           </div>
 
           <div className="admin-form-actions">
@@ -785,7 +932,9 @@ export default function AdminContent({ type }) {
 
               <h2>
                 Existing{" "}
-                {formatTypeName(type)}
+                {formatTypeName(
+                  type
+                )}
               </h2>
             </div>
           </div>
@@ -794,7 +943,8 @@ export default function AdminContent({ type }) {
             <div className="admin-loading">
               Loading content...
             </div>
-          ) : items.length === 0 ? (
+          ) : items.length ===
+            0 ? (
             <div className="admin-empty">
               <h3>
                 No content found
@@ -807,115 +957,141 @@ export default function AdminContent({ type }) {
             </div>
           ) : (
             <div className="admin-list">
-              {items.map((item) => (
-                <article
-                  className="admin-item"
-                  key={item._id}
-                >
-                  <div className="admin-item-image">
-                    <img
-                      src={getImageUrl(
-                        item
-                      )}
-                      alt={
-                        item.title ||
-                        item.planName ||
-                        item.serviceName ||
-                        "Content image"
-                      }
-                      loading="lazy"
-                      onError={
-                        handleImageError
-                      }
-                    />
-                  </div>
-
-                  <div className="admin-item-content">
-                    <div>
-                      <small>
-                        {item.category ||
-                          item.serviceName ||
-                          type}
-                      </small>
-
-                      <h3>
-                        {item.title ||
-                          item.planName ||
-                          item.serviceName ||
-                          "Untitled Item"}
-                      </h3>
-
-                      {item.shortDescription && (
-                        <p>
-                          {
-                            item.shortDescription
+              {items.map(
+                (item) => (
+                  <article
+                    className={`admin-item ${
+                      type ===
+                      "pricing"
+                        ? "admin-item-without-image"
+                        : ""
+                    }`}
+                    key={item._id}
+                  >
+                    {type !==
+                      "pricing" && (
+                      <div className="admin-item-image">
+                        <img
+                          src={getImageUrl(
+                            item
+                          )}
+                          alt={
+                            item.title ||
+                            item.planName ||
+                            item.serviceName ||
+                            "Content image"
                           }
-                        </p>
-                      )}
+                          loading="lazy"
+                          onError={
+                            handleImageError
+                          }
+                        />
+                      </div>
+                    )}
+
+                    <div className="admin-item-content">
+                      <div>
+                        <small>
+                          {item.category ||
+                            item.serviceName ||
+                            type}
+                        </small>
+
+                        <h3>
+                          {item.title ||
+                            item.planName ||
+                            item.serviceName ||
+                            "Untitled Item"}
+                        </h3>
+
+                        {item.shortDescription && (
+                          <p>
+                            {
+                              item.shortDescription
+                            }
+                          </p>
+                        )}
+
+                        {type ===
+                          "pricing" &&
+                          item.price !==
+                            undefined && (
+                            <p className="admin-item-price">
+                              ₹
+                              {Number(
+                                item.price
+                              ).toLocaleString(
+                                "en-IN"
+                              )}
+                            </p>
+                          )}
+                      </div>
+
+                      <div className="admin-status-row">
+                        {item.active !==
+                          undefined && (
+                          <span
+                            className={
+                              item.active
+                                ? "status-badge active"
+                                : "status-badge inactive"
+                            }
+                          >
+                            {item.active
+                              ? "Active"
+                              : "Inactive"}
+                          </span>
+                        )}
+
+                        {item.highlighted && (
+                          <span className="status-badge featured">
+                            Highlighted
+                          </span>
+                        )}
+
+                        {item.featured && (
+                          <span className="status-badge featured">
+                            Featured
+                          </span>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="admin-status-row">
-                      {item.active !==
-                        undefined && (
-                        <span
-                          className={
-                            item.active
-                              ? "status-badge active"
-                              : "status-badge inactive"
-                          }
-                        >
-                          {item.active
-                            ? "Active"
-                            : "Inactive"}
-                        </span>
-                      )}
+                    <div className="admin-actions">
+                      <button
+                        className="admin-edit-button"
+                        type="button"
+                        onClick={() =>
+                          startEdit(
+                            item
+                          )
+                        }
+                      >
+                        Edit
+                      </button>
 
-                      {item.highlighted && (
-                        <span className="status-badge featured">
-                          Highlighted
-                        </span>
-                      )}
-
-                      {item.featured && (
-                        <span className="status-badge featured">
-                          Featured
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="admin-actions">
-                    <button
-                      className="admin-edit-button"
-                      type="button"
-                      onClick={() =>
-                        startEdit(item)
-                      }
-                    >
-                      Edit
-                    </button>
-
-                    <button
-                      className="admin-delete-button"
-                      type="button"
-                      disabled={
-                        deletingId ===
-                        item._id
-                      }
-                      onClick={() =>
-                        removeItem(
+                      <button
+                        className="admin-delete-button"
+                        type="button"
+                        disabled={
+                          deletingId ===
                           item._id
-                        )
-                      }
-                    >
-                      {deletingId ===
-                      item._id
-                        ? "Deleting..."
-                        : "Delete"}
-                    </button>
-                  </div>
-                </article>
-              ))}
+                        }
+                        onClick={() =>
+                          removeItem(
+                            item._id
+                          )
+                        }
+                      >
+                        {deletingId ===
+                        item._id
+                          ? "Deleting..."
+                          : "Delete"}
+                      </button>
+                    </div>
+                  </article>
+                )
+              )}
             </div>
           )}
         </div>

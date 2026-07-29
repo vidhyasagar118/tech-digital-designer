@@ -3,18 +3,28 @@ import React, {
   useState,
 } from "react";
 
-import {
-  Link,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import {
+  ArrowRight,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 
 import API from "../api";
 
+import {
+  getImageUrl,
+  handleImageError,
+} from "../utils/image";
+
 import "./Slider.css";
+
+const AUTO_SLIDE_DELAY = 5500;
+
+function formatSlideNumber(number) {
+  return String(number).padStart(2, "0");
+}
 
 export default function Slider() {
   const [slides, setSlides] =
@@ -25,11 +35,16 @@ export default function Slider() {
     setActiveIndex,
   ] = useState(0);
 
+  const [loading, setLoading] =
+    useState(true);
+
   useEffect(() => {
     let isMounted = true;
 
     async function loadSlides() {
       try {
+        setLoading(true);
+
         const response =
           await API.get(
             "/content/sliders"
@@ -40,26 +55,39 @@ export default function Slider() {
         }
 
         const sliderData =
-          Array.isArray(
-            response.data
-          )
+          Array.isArray(response.data)
             ? response.data
             : response.data?.slides ||
               response.data?.items ||
               [];
 
         const activeSlides =
-          sliderData.filter(
-            (slide) =>
-              slide.active !== false
-          );
+          sliderData
+            .filter(
+              (slide) =>
+                slide.active !== false
+            )
+            .sort(
+              (first, second) =>
+                Number(first.order || 0) -
+                Number(second.order || 0)
+            );
 
         setSlides(activeSlides);
+        setActiveIndex(0);
       } catch (error) {
         console.error(
           "Slider load error:",
           error
         );
+
+        if (isMounted) {
+          setSlides([]);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
@@ -75,44 +103,39 @@ export default function Slider() {
       return undefined;
     }
 
-    const interval =
+    const intervalId =
       window.setInterval(() => {
         setActiveIndex(
           (currentIndex) =>
             (currentIndex + 1) %
             slides.length
         );
-      }, 5000);
+      }, AUTO_SLIDE_DELAY);
 
     return () => {
-      window.clearInterval(
-        interval
-      );
+      window.clearInterval(intervalId);
     };
   }, [slides.length]);
 
-  useEffect(() => {
-    if (
-      slides.length > 0 &&
-      activeIndex >= slides.length
-    ) {
-      setActiveIndex(0);
+  function showPrevious() {
+    if (!slides.length) {
+      return;
     }
-  }, [
-    activeIndex,
-    slides.length,
-  ]);
 
-  function showPreviousSlide() {
     setActiveIndex(
       (currentIndex) =>
-        currentIndex === 0
-          ? slides.length - 1
-          : currentIndex - 1
+        (currentIndex -
+          1 +
+          slides.length) %
+        slides.length
     );
   }
 
-  function showNextSlide() {
+  function showNext() {
+    if (!slides.length) {
+      return;
+    }
+
     setActiveIndex(
       (currentIndex) =>
         (currentIndex + 1) %
@@ -120,160 +143,221 @@ export default function Slider() {
     );
   }
 
-  if (!slides.length) {
+  if (loading) {
     return (
-      <section className="fallback-hero">
-        <div className="slider-overlay" />
-
-        <div className="container slider-content">
-          <div className="slider-text">
-            <span className="eyebrow">
-              Tech Digital Designers
-            </span>
-
-            <h1>
-              Simple digital solutions for
-              real business growth
-            </h1>
-
-            <p>
-              Websites, branding, promotion,
-              social media, SEO and
-              professional design.
-            </p>
-
-            <Link
-              className="btn slider-button"
-              to="/contact"
-            >
-              Start a Project
-            </Link>
-          </div>
+      <section className="showcase-slider-section">
+        <div className="showcase-slider showcase-slider-loading">
+          <div className="showcase-loading-bar" />
         </div>
       </section>
     );
   }
 
-  const slide =
-    slides[activeIndex] ||
-    slides[0];
-
-  const slideKey =
-    slide._id ||
-    slide.id ||
-    activeIndex;
+  if (!slides.length) {
+    return null;
+  }
 
   return (
     <section
-      className="slider"
-      style={{
-        backgroundImage: `
-          linear-gradient(
-            90deg,
-            rgba(2, 6, 23, 0.82) 0%,
-            rgba(15, 23, 42, 0.64) 48%,
-            rgba(15, 23, 42, 0.38) 100%
-          ),
-          url("${slide.imageUrl}")
-        `,
-      }}
+      className="showcase-slider-section"
+      aria-label="Featured banners"
     >
-      <div className="slider-overlay" />
+      <div className="showcase-slider">
+        <div className="showcase-track">
+          {slides.map(
+            (slide, index) => (
+              <article
+                className={`showcase-slide ${
+                  index === activeIndex
+                    ? "active"
+                    : ""
+                }`}
+                key={
+                  slide._id ||
+                  `${slide.title}-${index}`
+                }
+                aria-hidden={
+                  index !== activeIndex
+                }
+              >
+                <div className="showcase-content">
+                  {slide.subtitle && (
+                    <span className="showcase-eyebrow">
+                      {slide.subtitle}
+                    </span>
+                  )}
 
-      <div className="container slider-content">
-        <div
-          className="slider-text"
-          key={slideKey}
-        >
-          <span className="eyebrow">
-            Tech Digital Designers
-          </span>
+                  {slide.title && (
+                    <h1>{slide.title}</h1>
+                  )}
 
-          <h1>
-            {slide.title ||
-              "Simple digital solutions for real business growth"}
-          </h1>
+                  <p className="showcase-description">
+                    {slide.description ||
+                      slide.shortDescription ||
+                      "Modern websites, powerful digital products and creative solutions designed to help your business grow."}
+                  </p>
 
-          <p>
-            {slide.subtitle ||
-              "Websites, branding, promotion, social media, SEO and professional design."}
-          </p>
+                  <div className="showcase-buttons">
+                    {slide.buttonText &&
+                      slide.buttonLink && (
+                        <Link
+                          className="showcase-primary-button"
+                          to={slide.buttonLink}
+                          tabIndex={
+                            index === activeIndex
+                              ? 0
+                              : -1
+                          }
+                        >
+                          {slide.buttonText}
+                        </Link>
+                      )}
 
-          <Link
-            className="btn btn-light slider-button"
-            to={
-              slide.buttonLink ||
-              "/contact"
-            }
-          >
-            {slide.buttonText ||
-              "Start a Project"}
-          </Link>
+                    <Link
+                      className="showcase-secondary-button"
+                      to="/projects"
+                      tabIndex={
+                        index === activeIndex
+                          ? 0
+                          : -1
+                      }
+                    >
+                      View Work
+                      <ArrowRight
+                        size={18}
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  </div>
+
+                  <div className="showcase-progress">
+                    <span>
+                      {formatSlideNumber(
+                        activeIndex + 1
+                      )}{" "}
+                      /{" "}
+                      {formatSlideNumber(
+                        slides.length
+                      )}
+                    </span>
+
+                    <div className="showcase-progress-lines">
+                      {slides.map(
+                        (
+                          progressSlide,
+                          progressIndex
+                        ) => (
+                          <button
+                            key={
+                              progressSlide._id ||
+                              `progress-${progressIndex}`
+                            }
+                            className={
+                              progressIndex ===
+                              activeIndex
+                                ? "active"
+                                : ""
+                            }
+                            type="button"
+                            onClick={() =>
+                              setActiveIndex(
+                                progressIndex
+                              )
+                            }
+                            aria-label={`Show slide ${
+                              progressIndex + 1
+                            }`}
+                          />
+                        )
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="showcase-media">
+                  <img
+                    src={getImageUrl(slide)}
+                    alt={
+                      slide.title ||
+                      "Website banner"
+                    }
+                    onError={
+                      handleImageError
+                    }
+                  />
+
+                  <span className="showcase-decoration showcase-decoration-one" />
+                  <span className="showcase-decoration showcase-decoration-two" />
+                </div>
+              </article>
+            )
+          )}
         </div>
+
+        {slides.length > 1 && (
+          <>
+            <button
+              className="showcase-arrow showcase-arrow-left"
+              type="button"
+              onClick={showPrevious}
+              aria-label="Previous slide"
+            >
+              <ChevronLeft size={26} />
+            </button>
+
+            <button
+              className="showcase-arrow showcase-arrow-right"
+              type="button"
+              onClick={showNext}
+              aria-label="Next slide"
+            >
+              <ChevronRight size={26} />
+            </button>
+          </>
+        )}
       </div>
 
       {slides.length > 1 && (
-        <>
-          <button
-            type="button"
-            className="slider-arrow slider-arrow-left"
-            onClick={showPreviousSlide}
-            aria-label="Previous slide"
-          >
-            <ChevronLeft
-              size={25}
-              aria-hidden="true"
-            />
-          </button>
-
-          <button
-            type="button"
-            className="slider-arrow slider-arrow-right"
-            onClick={showNextSlide}
-            aria-label="Next slide"
-          >
-            <ChevronRight
-              size={25}
-              aria-hidden="true"
-            />
-          </button>
-
-          <div
-            className="slider-dots"
-            aria-label="Slider navigation"
-          >
-            {slides.map(
-              (item, index) => (
-                <button
-                  type="button"
-                  key={
-                    item._id ||
-                    item.id ||
-                    index
-                  }
-                  className={
-                    index === activeIndex
-                      ? "active"
-                      : ""
-                  }
-                  onClick={() =>
-                    setActiveIndex(
-                      index
-                    )
-                  }
-                  aria-label={`Open slide ${
+        <div className="showcase-thumbnails">
+          {slides.map(
+            (slide, index) => (
+              <button
+                className={`showcase-thumbnail ${
+                  index === activeIndex
+                    ? "active"
+                    : ""
+                }`}
+                key={
+                  slide._id ||
+                  `thumbnail-${index}`
+                }
+                type="button"
+                onClick={() =>
+                  setActiveIndex(index)
+                }
+                aria-label={`Show slide ${
+                  index + 1
+                }`}
+              >
+                <strong>
+                  {formatSlideNumber(
                     index + 1
-                  }`}
-                  aria-current={
-                    index === activeIndex
-                      ? "true"
-                      : undefined
-                  }
-                />
-              )
-            )}
-          </div>
-        </>
+                  )}
+                </strong>
+
+                <span className="showcase-thumbnail-image">
+                  <img
+                    src={getImageUrl(slide)}
+                    alt=""
+                    onError={
+                      handleImageError
+                    }
+                  />
+                </span>
+              </button>
+            )
+          )}
+        </div>
       )}
     </section>
   );

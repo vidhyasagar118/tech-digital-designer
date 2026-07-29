@@ -1497,35 +1497,1052 @@
   }
 }
 
-@media (max-width: 768px) {
-  .home-service-category-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 7px;
+@media screen and (max-width: 768px) {
+  .home-page .container {
+    width: min(100% - 28px, 1200px);
   }
 
-  .home-service-category-card {
-    border-radius: 10px;
+  body .home-page .card-grid,
+  body .home-page .pricing-grid {
+    display: grid !important;
+    width: 100% !important;
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
   }
 
-  .home-service-category-image {
-    height: 82px;
+  .home-page .content-card,
+  .home-page .pricing-card {
+    width: 100% !important;
+    max-width: 520px !important;
+    margin-inline: auto;
+    border-radius: 16px;
   }
 
-  .home-service-category-body {
-    min-height: 124px;
-    padding: 8px 7px;
+  .home-page .content-card-image,
+  .home-page .pricing-image {
+    height: auto;
+    aspect-ratio: 16 / 9;
   }
 
-  .home-service-category-body h3 {
+  .home-page .content-card-body {
+    min-height: 0;
+    padding: 18px;
+  }
+
+  .home-page .content-card-body h3 {
+    font-size: 18px;
+  }
+
+  .home-page .content-card-body p {
+    font-size: 13px;
+  }
+
+  .home-page .card-link {
+    width: auto;
+    min-height: 40px;
+    font-size: 13px;
+  }
+
+  .home-page .pricing-card-body {
+    min-height: 0;
+    padding: 22px;
+  }
+
+  .home-page .pricing-card-body > small {
     font-size: 10px;
   }
 
-  .home-service-category-body p {
-    font-size: 7px;
-    line-height: 1.35;
+  .home-page .pricing-card-body h3 {
+    font-size: 24px;
   }
 
-  .home-service-category-body span {
-    font-size: 15px;
+  .home-page .price span {
+    margin-top: 7px;
+    font-size: 18px;
+  }
+
+  .home-page .price strong {
+    font-size: 38px;
+  }
+
+  .home-page .billing-text,
+  .home-page .pricing-features li {
+    font-size: 13px;
+  }
+
+  .home-page .pricing-features li {
+    padding-left: 24px;
+  }
+
+  .home-page .pricing-features li::before {
+    width: 17px;
+    height: 17px;
+    font-size: 10px;
+  }
+
+  .home-page .pricing-button {
+    min-height: 44px;
+    font-size: 13px;
+  }
+
+  .home-page .popular-badge {
+    top: 13px;
+    right: 13px;
+    padding: 7px 11px;
+    font-size: 9px;
+  }
+}
+
+/* Very small phone wala 3-column rule poora delete kar dena. */
+
+
+/* Final responsive overrides */
+.home-page *,
+.home-page *::before,
+.home-page *::after {
+  box-sizing: border-box;
+}
+
+.home-page {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.home-page .container {
+  width: min(100% - 32px, 1200px);
+  margin-inline: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .home-page .section {
+    padding: 48px 0;
+  }
+
+  .home-page .container {
+    width: min(100% - 28px, 1200px);
+  }
+
+  body .home-page .card-grid,
+  body .home-page .pricing-grid {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  .home-page .content-card,
+  .home-page .pricing-card {
+    width: 100% !important;
+    max-width: 560px !important;
+    margin-inline: auto;
+    border-radius: 16px;
+  }
+
+  .home-page .content-card-image,
+  .home-page .pricing-image {
+    height: auto !important;
+    aspect-ratio: 16 / 9;
+  }
+
+  .home-page .content-card-body {
+    min-height: 0 !important;
+    padding: 18px !important;
+  }
+
+  .home-page .content-card-body h3 {
+    font-size: 18px !important;
+  }
+
+  .home-page .content-card-body p {
+    font-size: 13px !important;
+  }
+
+  .home-page .card-category {
+    top: 12px !important;
+    left: 12px !important;
+    max-width: calc(100% - 24px) !important;
+    padding: 6px 10px !important;
+    font-size: 9px !important;
+    letter-spacing: 0.4px !important;
+  }
+
+  .home-page .card-link {
+    width: auto !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    font-size: 13px !important;
+  }
+
+  .home-page .card-link::after {
+    font-size: 16px !important;
+  }
+
+  .home-page .pricing-card-body {
+    min-height: 0 !important;
+    padding: 22px !important;
+  }
+
+  .home-page .pricing-card-body > small {
+    font-size: 10px !important;
+  }
+
+  .home-page .pricing-card-body h3 {
+    font-size: 24px !important;
+  }
+
+  .home-page .price span {
+    margin-top: 7px !important;
+    font-size: 18px !important;
+  }
+
+  .home-page .price strong {
+    font-size: 38px !important;
+  }
+
+  .home-page .billing-text,
+  .home-page .pricing-features li {
+    font-size: 13px !important;
+  }
+
+  .home-page .pricing-features {
+    gap: 10px !important;
+  }
+
+  .home-page .pricing-features li {
+    padding-left: 24px !important;
+  }
+
+  .home-page .pricing-features li::before {
+    width: 17px !important;
+    height: 17px !important;
+    font-size: 10px !important;
+  }
+
+  .home-page .pricing-button {
+    min-height: 44px !important;
+    padding: 10px 14px !important;
+    font-size: 13px !important;
+  }
+
+  .home-page .popular-badge {
+    top: 13px !important;
+    right: 13px !important;
+    padding: 7px 11px !important;
+    font-size: 9px !important;
+  }
+
+  .home-service-category-grid {
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+    gap: 12px;
+  }
+
+  .home-service-category-image {
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .home-service-category-body {
+    min-height: 145px;
+  }
+
+  .home-about-layout,
+  .why-choose-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .home-about-content h2,
+  .why-choose-heading h2 {
+    font-size: 27px !important;
+  }
+
+  .home-about-content p,
+  .why-choose-heading p {
+    display: block !important;
+    overflow: visible !important;
+    font-size: 13px !important;
+    line-height: 1.65 !important;
+    -webkit-line-clamp: initial !important;
+  }
+
+  .home-about-highlights {
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+  }
+
+  .why-choose-visual img {
+    height: auto !important;
+    max-height: 480px !important;
+    aspect-ratio: 4 / 3;
+  }
+
+  .why-choose-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .why-choose-card {
+    min-height: 0 !important;
+    padding: 16px !important;
+    flex-direction: row !important;
+  }
+
+  .why-choose-card h3 {
+    font-size: 15px !important;
+  }
+
+  .why-choose-card p {
+    display: block !important;
+    overflow: visible !important;
+    font-size: 12px !important;
+    -webkit-line-clamp: initial !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .home-page .container {
+    width: min(100% - 22px, 1200px);
+  }
+
+  .home-service-category-grid,
+  .home-about-highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .home-page .section-heading h2,
+  .home-page .center-heading h2,
+  .home-about-content h2,
+  .why-choose-heading h2 {
+    font-size: 24px !important;
+  }
+}
+
+/* =========================================================
+   FINAL MOBILE LAYOUT
+   Why Choose: image left + content/cards right
+   Services: all categories in one horizontal row
+   Projects: 3 cards in one row
+   Pricing: 3 cards in one row
+   ========================================================= */
+
+@media screen and (max-width: 768px) {
+  .home-page {
+    overflow-x: hidden;
+  }
+
+  .home-page .section {
+    padding: 42px 0;
+  }
+
+  .home-page .container {
+    width: calc(100% - 16px) !important;
+    max-width: none;
+    margin-inline: auto;
+  }
+
+  .home-page .section-heading {
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-direction: column;
+  }
+
+  .home-page .section-heading h2,
+  .home-page .center-heading h2 {
+    margin: 6px 0 8px;
+    font-size: 22px !important;
+    line-height: 1.18;
+    letter-spacing: -0.5px;
+  }
+
+  .home-page .section-heading p,
+  .home-page .center-heading p {
+    font-size: 12px !important;
+    line-height: 1.55;
+  }
+
+  .home-page .section-link {
+    min-height: 36px;
+    padding: 8px 12px;
+    font-size: 10px;
+  }
+
+  /* WHY CHOOSE US: desktop-style two-column layout on phone */
+  .home-page .why-choose-layout {
+    display: grid !important;
+    grid-template-columns:
+      minmax(108px, 0.62fr)
+      minmax(0, 1.38fr) !important;
+    align-items: center !important;
+    gap: 9px !important;
+  }
+
+  .home-page .why-choose-visual {
+    width: 100%;
+    min-width: 0;
+    align-self: center;
+  }
+
+  .home-page .why-choose-glow {
+    inset: 10% 7%;
+    filter: blur(28px);
+  }
+
+  .home-page .why-choose-visual img {
+    width: 100% !important;
+    height: 320px !important;
+    max-height: none !important;
+    border-radius: 14px !important;
+    aspect-ratio: auto !important;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .home-page .why-choose-content {
+    min-width: 0;
+  }
+
+  .home-page .why-choose-heading {
+    margin-bottom: 9px;
+  }
+
+  .home-page .why-choose-heading .eyebrow {
+    font-size: 7px;
+    letter-spacing: 0.8px;
+  }
+
+  .home-page .why-choose-heading h2 {
+    margin: 3px 0 5px;
+    font-size: 16px !important;
+    line-height: 1.12;
+    letter-spacing: -0.25px;
+  }
+
+  .home-page .why-choose-heading p {
+    display: -webkit-box !important;
+    margin: 0;
+    overflow: hidden !important;
+    font-size: 7px !important;
+    line-height: 1.4 !important;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3 !important;
+  }
+
+  .home-page .why-choose-grid {
+    display: grid !important;
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+  }
+
+  .home-page .why-choose-card {
+    display: flex !important;
+    min-width: 0;
+    min-height: 128px !important;
+    gap: 6px !important;
+    padding: 8px 6px !important;
+    border-radius: 9px !important;
+    flex-direction: column !important;
+  }
+
+  .home-page .why-choose-icon {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 8px;
+  }
+
+  .home-page .why-choose-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .home-page .why-choose-card h3 {
+    margin: 0 0 3px;
+    font-size: 8px !important;
+    line-height: 1.17;
+  }
+
+  .home-page .why-choose-card p {
+    display: -webkit-box !important;
+    overflow: hidden !important;
+    font-size: 6px !important;
+    line-height: 1.35 !important;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5 !important;
+  }
+
+  /* SERVICES: all category cards in one horizontal row */
+  .home-page .home-service-category-grid {
+    display: grid !important;
+    width: 100%;
+    overflow-x: auto;
+    padding: 2px 2px 12px;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(105px, 1fr);
+    grid-template-columns: none !important;
+    gap: 7px !important;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    overscroll-behavior-x: contain;
+  }
+
+  .home-page .home-service-category-card {
+    width: 105px;
+    min-width: 105px;
+    border-radius: 10px;
+    scroll-snap-align: start;
+  }
+
+  .home-page .home-service-category-image {
+    width: 100%;
+    height: 78px !important;
+    aspect-ratio: auto !important;
+  }
+
+  .home-page .home-service-category-body {
+    min-height: 112px !important;
+    padding: 8px 6px;
+  }
+
+  .home-page .home-service-category-body h3 {
+    display: -webkit-box;
+    margin-bottom: 4px;
+    overflow: hidden;
+    font-size: 9px;
+    line-height: 1.2;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .home-page .home-service-category-body p {
+    font-size: 6px;
+    line-height: 1.35;
+    -webkit-line-clamp: 4;
+  }
+
+  .home-page .home-service-category-body span {
+    font-size: 16px;
+  }
+
+  /* PROJECTS: exactly 3 cards in one row */
+  body .home-page .card-grid {
+    display: grid !important;
+    width: 100% !important;
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  .home-page .content-card {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    border-radius: 9px !important;
+    box-shadow: 0 4px 12px
+      rgba(15, 23, 42, 0.07);
+  }
+
+  .home-page .content-card:hover {
+    box-shadow: 0 4px 12px
+      rgba(15, 23, 42, 0.07);
+    transform: none;
+  }
+
+  .home-page .content-card-image {
+    height: 80px !important;
+    aspect-ratio: auto !important;
+  }
+
+  .home-page .content-card-body {
+    min-height: 145px !important;
+    padding: 7px 6px !important;
+  }
+
+  .home-page .card-category {
+    top: 4px !important;
+    left: 4px !important;
+    max-width: calc(100% - 8px) !important;
+    padding: 3px 4px !important;
+    font-size: 5px !important;
+    letter-spacing: 0 !important;
+  }
+
+  .home-page .content-card-body h3 {
+    display: -webkit-box;
+    margin-bottom: 5px;
+    overflow: hidden;
+    font-size: 9px !important;
+    line-height: 1.2;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .home-page .content-card-body p {
+    margin-bottom: 5px;
+    font-size: 6px !important;
+    line-height: 1.3;
+    -webkit-line-clamp: 4;
+  }
+
+  .home-page .card-link {
+    width: 100% !important;
+    min-height: 24px !important;
+    padding: 4px 1px !important;
+    font-size: 6px !important;
+  }
+
+  .home-page .card-link::after {
+    font-size: 8px !important;
+  }
+
+  /* PRICING: exactly 3 cards in one row */
+  body .home-page .pricing-grid {
+    display: grid !important;
+    width: 100% !important;
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  .home-page .pricing-card {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    border-radius: 9px !important;
+  }
+
+  .home-page .pricing-card:hover {
+    transform: none;
+  }
+
+  .home-page .pricing-image {
+    height: 78px !important;
+    aspect-ratio: auto !important;
+  }
+
+  .home-page .pricing-card-body {
+    min-width: 0;
+    min-height: 220px !important;
+    padding: 7px 5px !important;
+  }
+
+  .home-page .pricing-card-body > small {
+    margin-bottom: 3px;
+    overflow: hidden;
+    font-size: 5px !important;
+    letter-spacing: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .home-page .pricing-card-body h3 {
+    margin-bottom: 4px;
+    font-size: 10px !important;
+    line-height: 1.17;
+  }
+
+  .home-page .price span {
+    margin-top: 2px !important;
+    font-size: 8px !important;
+  }
+
+  .home-page .price strong {
+    font-size: 16px !important;
+    letter-spacing: -0.4px;
+  }
+
+  .home-page .billing-text {
+    margin: 3px 0 6px;
+    font-size: 6px !important;
+    line-height: 1.25;
+  }
+
+  .home-page .pricing-features {
+    margin-bottom: 7px;
+    gap: 3px !important;
+  }
+
+  .home-page .pricing-features li {
+    padding-left: 10px !important;
+    overflow-wrap: anywhere;
+    font-size: 5px !important;
+    line-height: 1.25;
+  }
+
+  .home-page .pricing-features li::before {
+    width: 7px !important;
+    height: 7px !important;
+    font-size: 4px !important;
+  }
+
+  .home-page .pricing-button {
+    min-height: 25px !important;
+    padding: 4px 1px !important;
+    border-radius: 4px;
+    font-size: 5px !important;
+  }
+
+  .home-page .popular-badge {
+    top: 4px !important;
+    right: 4px !important;
+    padding: 3px 4px !important;
+    font-size: 4px !important;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .home-page .why-choose-layout {
+    grid-template-columns:
+      minmax(96px, 0.58fr)
+      minmax(0, 1.42fr) !important;
+    gap: 6px !important;
+  }
+
+  .home-page .why-choose-visual img {
+    height: 300px !important;
+  }
+
+  .home-page .why-choose-grid {
+    gap: 4px !important;
+  }
+
+  .home-page .why-choose-card {
+    min-height: 121px !important;
+    padding: 7px 5px !important;
+  }
+
+  .home-page .home-service-category-grid {
+    grid-auto-columns: 96px;
+  }
+
+  .home-page .home-service-category-card {
+    width: 96px;
+    min-width: 96px;
+  }
+
+  body .home-page .card-grid,
+  body .home-page .pricing-grid {
+    gap: 4px !important;
+  }
+
+  .home-page .content-card-image,
+  .home-page .pricing-image {
+    height: 68px !important;
+  }
+
+  .home-page .content-card-body,
+  .home-page .pricing-card-body {
+    padding-right: 4px !important;
+    padding-left: 4px !important;
+  }
+}
+
+/* =========================================================
+   HOME SERVICES — clean icon cards
+   ========================================================= */
+
+.home-page .home-services-showcase {
+  background: #ffffff;
+}
+
+.home-services-heading {
+  max-width: 980px;
+  margin: 0 auto 46px;
+  text-align: center;
+}
+
+.home-services-heading .eyebrow {
+  display: inline-block;
+  color: #3157ff;
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+.home-services-heading h2 {
+  margin: 12px 0 0;
+  color: var(--heading, #0f172a);
+  font-size: clamp(31px, 3.25vw, 46px);
+  font-weight: 850;
+  letter-spacing: -1.55px;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.home-services-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.home-service-box {
+  display: flex;
+  min-width: 0;
+  min-height: 268px;
+  padding: 24px;
+  border: 1px solid #e5eaf2;
+  border-radius: 16px;
+  color: inherit;
+  background: #ffffff;
+  box-shadow:
+    0 5px 18px
+    rgba(15, 23, 42, 0.025);
+  text-decoration: none;
+  flex-direction: column;
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+}
+
+.home-service-box:hover {
+  border-color: #cbd7ff;
+  box-shadow:
+    0 18px 42px
+    rgba(37, 99, 235, 0.1);
+  transform: translateY(-5px);
+}
+
+.home-service-icon {
+  display: inline-flex;
+  width: 56px;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  border-radius: 13px;
+}
+
+.home-service-icon.blue {
+  color: #2864f0;
+  background: #eaf2ff;
+}
+
+.home-service-icon.orange {
+  color: #f97316;
+  background: #fff4e9;
+}
+
+.home-service-icon.violet {
+  color: #635bff;
+  background: #efefff;
+}
+
+.home-service-icon.pink {
+  color: #ec3780;
+  background: #fff0f7;
+}
+
+.home-service-icon.purple {
+  color: #9439ed;
+  background: #f8efff;
+}
+
+.home-service-icon.green {
+  color: #00a77e;
+  background: #eafaf5;
+}
+
+.home-service-icon.amber {
+  color: #e88700;
+  background: #fff8e9;
+}
+
+.home-service-icon.teal {
+  color: #009b91;
+  background: #eafaf9;
+}
+
+.home-service-box h3 {
+  margin: 0 0 9px;
+  color: var(--heading, #0f172a);
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.home-service-box p {
+  display: -webkit-box;
+  margin: 0 0 18px;
+  overflow: hidden;
+  color: var(--muted, #64748b);
+  font-size: 14px;
+  line-height: 1.65;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.home-service-learn {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  margin-top: auto;
+  color: #5676ff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.home-service-learn > span {
+  font-size: 19px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.home-service-box:hover
+  .home-service-learn > span {
+  transform: translateX(4px);
+}
+
+.home-services-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 34px;
+}
+
+@media (max-width: 1050px) {
+  .home-services-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .home-services-heading {
+    margin-bottom: 28px;
+  }
+
+  .home-services-heading .eyebrow {
+    font-size: 10px;
+    letter-spacing: 1.9px;
+  }
+
+  .home-services-heading h2 {
+    margin-top: 9px;
+    font-size: 27px;
+    letter-spacing: -0.8px;
+  }
+
+  .home-services-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .home-service-box {
+    min-height: 230px;
+    padding: 21px;
+    border-radius: 14px;
+  }
+
+  .home-service-icon {
+    width: 51px;
+    height: 51px;
+    margin-bottom: 18px;
+  }
+
+  .home-service-box h3 {
+    font-size: 18px;
+  }
+
+  .home-service-box p {
+    font-size: 13px;
+  }
+}
+
+/* =========================================================
+   FINAL MOBILE SERVICES OVERRIDE
+   Phone par ek row me exactly 2 service cards
+   ========================================================= */
+
+@media screen and (max-width: 620px) {
+  .home-page .home-services-grid {
+    display: grid !important;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .home-page .home-service-box {
+    width: 100%;
+    min-width: 0;
+    min-height: 210px;
+    padding: 14px 12px;
+    border-radius: 12px;
+  }
+
+  .home-page .home-service-icon {
+    width: 43px;
+    height: 43px;
+    margin-bottom: 13px;
+    border-radius: 10px;
+  }
+
+  .home-page .home-service-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .home-page .home-service-box h3 {
+    display: -webkit-box;
+    margin-bottom: 7px;
+    overflow: hidden;
+    font-size: 13px;
+    line-height: 1.3;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .home-page .home-service-box p {
+    display: -webkit-box;
+    margin-bottom: 12px;
+    overflow: hidden;
+    font-size: 9px;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+  }
+
+  .home-page .home-service-learn {
+    gap: 5px;
+    font-size: 10px;
+  }
+
+  .home-page
+    .home-service-learn > span {
+    font-size: 14px;
+  }
+
+  .home-page .home-services-heading {
+    margin-bottom: 25px;
+  }
+
+  .home-page
+    .home-services-heading h2 {
+    font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .home-page .home-services-grid {
+    gap: 7px !important;
+  }
+
+  .home-page .home-service-box {
+    min-height: 200px;
+    padding: 12px 10px;
+  }
+
+  .home-page .home-service-box h3 {
+    font-size: 12px;
+  }
+
+  .home-page .home-service-box p {
+    font-size: 8px;
   }
 }
