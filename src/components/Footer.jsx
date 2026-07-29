@@ -5,9 +5,13 @@ import {
 } from "react-router-dom";
 
 import {
+    Instagram,
+
   Mail,
   MapPin,
   Phone,
+    Send,
+
 } from "lucide-react";
 
 import "./Footer.css";
@@ -91,39 +95,66 @@ export default function Footer() {
             Disclaimer
           </Link>
         </div>
+<div className="footer-column footer-contact">
+  <h4>Contact</h4>
 
-        <div className="footer-column footer-contact">
-          <h4>Contact</h4>
+  <a
+    href="https://www.instagram.com/tech_digital_designers/"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Tech Digital Designers on Instagram"
+  >
+    <Instagram
+      size={16}
+      aria-hidden="true"
+    />
 
-          <a href={`tel:${phone}`}>
-            <Phone
-              size={16}
-              aria-hidden="true"
-            />
+    <span>Instagram</span>
+  </a>
 
-            <span>{phone}</span>
-          </a>
+  <a
+    href="https://t.me/your_telegram_username"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Tech Digital Designers on Telegram"
+  >
+    <Send
+      size={16}
+      aria-hidden="true"
+    />
 
-          <a href={`mailto:${email}`}>
-            <Mail
-              size={16}
-              aria-hidden="true"
-            />
+    <span>Telegram</span>
+  </a>
 
-            <span>{email}</span>
-          </a>
+  <a href={`tel:${phone}`}>
+    <Phone
+      size={16}
+      aria-hidden="true"
+    />
 
-          <div className="footer-contact-item">
-            <MapPin
-              size={16}
-              aria-hidden="true"
-            />
+    <span>{phone}</span>
+  </a>
 
-            <span>
-              Chittorgarh, Rajasthan
-            </span>
-          </div>
-        </div>
+  <a href={`mailto:${email}`}>
+    <Mail
+      size={16}
+      aria-hidden="true"
+    />
+
+    <span>{email}</span>
+  </a>
+
+  <div className="footer-contact-item">
+    <MapPin
+      size={16}
+      aria-hidden="true"
+    />
+
+    <span>
+      Chittorgarh, Rajasthan
+    </span>
+  </div>
+</div>
       </div>
 
       <div className="container footer-bottom">
