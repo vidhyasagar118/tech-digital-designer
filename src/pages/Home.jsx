@@ -402,7 +402,7 @@ export default function Home() {
           </div>
         )}
 
-<h1>
+<h1 className="titleh1">
   Tech Digital Designers – Website, App, SEO and Digital Marketing Company
 </h1>
         {/* Why Choose Us */}
