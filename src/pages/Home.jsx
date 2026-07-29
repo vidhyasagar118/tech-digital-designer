@@ -24,7 +24,7 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
-
+import "./home.css"
 import API from "../api";
 
 import SEO from "../components/SEO";
@@ -41,7 +41,6 @@ import {
   handleImageError,
 } from "../utils/image";
 
-import "./Home.css";
 
 function makeSlug(value = "") {
   return String(value)
