@@ -556,13 +556,11 @@ export default function AdminContent({
     setEditingId(item._id);
     setImage(null);
 
-    if (type !== "pricing") {
-      setImagePreview(
-        getImageUrl(item)
-      );
-    } else {
-      setImagePreview("");
-    }
+    setImagePreview(
+      item.imageUrl || item.imageKey
+        ? getImageUrl(item)
+        : ""
+    );
 
     if (fileInputRef.current) {
       fileInputRef.current.value =
@@ -827,13 +825,14 @@ export default function AdminContent({
               }
             )}
 
-            {type !==
-              "pricing" && (
-              <label className="admin-field">
+            <label className="admin-field">
                 <span>
-                  Content Image
+                  {type === "pricing"
+                    ? "Plan Image"
+                    : "Content Image"}
 
-                  {!editingId && (
+                  {type !== "pricing" &&
+                    !editingId && (
                     <b> *</b>
                   )}
                 </span>
@@ -858,11 +857,8 @@ export default function AdminContent({
                   </small>
                 </div>
               </label>
-            )}
 
-            {imagePreview &&
-              type !==
-                "pricing" && (
+            {imagePreview && (
                 <div className="admin-image-preview">
                   <div className="admin-image-preview-header">
                     <span>
@@ -961,15 +957,15 @@ export default function AdminContent({
                 (item) => (
                   <article
                     className={`admin-item ${
-                      type ===
-                      "pricing"
+                      !item.imageUrl &&
+                      !item.imageKey
                         ? "admin-item-without-image"
                         : ""
                     }`}
                     key={item._id}
                   >
-                    {type !==
-                      "pricing" && (
+                    {(item.imageUrl ||
+                      item.imageKey) && (
                       <div className="admin-item-image">
                         <img
                           src={getImageUrl(
